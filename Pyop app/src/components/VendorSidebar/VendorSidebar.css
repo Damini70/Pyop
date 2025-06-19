@@ -1,0 +1,55 @@
+.vendorSidebar {
+    width: 250px;
+    transition: width 0.3s ease;
+    min-height: 100vh;
+  }
+  
+  .vendorSidebar.collapsed {
+    width: 80px;
+  }
+  
+  .sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-logo {
+    width: 100px;
+    height: auto;
+  }
+  
+  .toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+  
+  .menu-list {
+    margin-top: 20px;
+  }
+  
+  .menu-item {
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .menu-icon {
+    font-size: 1.5rem;
+  }
+  
+  .bg-pyopSidebar{
+    /* background-color: rgb(150, 144, 241); */
+    background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+    }
+    
+  .toggle-btn{
+    background-color: rgb(118, 109, 243);
+    color: black;
+  }

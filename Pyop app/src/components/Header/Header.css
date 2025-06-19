@@ -1,0 +1,25 @@
+
+.logo-text{
+    font-family: "Roboto Mono", monospace !important;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    color: #e1f196 !important;
+    font-size: 35px;
+}
+
+.profile-image-navbar-style{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.profile-sectionNavbar{
+    background-color: #1f1f1f;
+}
+.profile-image-wrapper{
+    height: 6vh;
+    width: 6vh;
+    border-radius: 50%;
+    border: 2px solid #e1f196;
+    padding: 3px;
+}

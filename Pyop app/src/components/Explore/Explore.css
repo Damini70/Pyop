@@ -1,0 +1,9 @@
+.explore-more-wrapper{
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bundle-card-banner{
+    height: 40vh;
+}

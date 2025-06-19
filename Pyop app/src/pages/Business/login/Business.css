@@ -1,0 +1,138 @@
+.vendor-signup-container {
+    width: 450px;
+    margin: 50px auto;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+
+
+  .vendor-entry{
+    background-color: #a9c1ff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .vendor-entry-card{
+    width: 80% !important;
+    height: 85% !important;
+  }
+
+  .shapedividers_com-5238{
+    overflow:hidden;
+    position:relative;
+    }
+    .shapedividers_com-5238::before{
+    content:'';
+    font-family:'shape divider from ShapeDividers.com';
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    z-index: 3;
+    pointer-events: none;
+    background-repeat: no-repeat; 
+    background-size: 100% 90px;
+    background-position: 50% 0%;    
+    background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z" fill="%23fbd8c2"/><path d="M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z" opacity=".5" fill="%23fbd8c2"/><path d="M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z" opacity=".5" fill="%23fbd8c2"/></svg>'); 
+    }
+    
+    @media (min-width:768px){
+    .shapedividers_com-5238::before{
+    background-size: 100% 90px;
+    background-position: 50% 0%;   
+    }  
+    }
+     
+    @media (min-width:1025px){
+    .shapedividers_com-5238::before{ 
+    bottom: -0.1vw;
+    left: -0.1vw;
+    right: -0.1vw;
+    top: -0.1vw; 
+    background-size: 148px 100%;
+    background-position: 100% 50%;  
+    background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.17 35.28" preserveAspectRatio="none"><path d="M1.67 0c-.55 3.07.41 9.27 0 16.14-.4 6.88-.58 13.75.1 19.14h.4V0z" fill="%235566ff"/><path d="M1.16 0c-.8 3.17.4 7.29.56 10.04C1.89 12.8.25 19.3.42 22.71c.16 3.43.84 4.65.86 7.05.03 2.4-.88 5.52-.88 5.52h1.77V0z" opacity=".5" fill="%235566ff"/><path d="M.31 0c.84 2.56.3 7.68.43 11.79.12 4.1.61 6.86.28 9.58-.33 2.73-1.18 5.61-1 8.61.19 3 .82 4.73.84 5.3h1.2V0z" opacity=".5" fill="%235566ff"/></svg>'); 
+    }
+    }
+    
+     
+     
+    .vendor-entry-card-right{
+      background-color: #5566ff;
+    }
+
+    .vendor-singup-wrapper div div div div a{
+      border-radius: 15px !important;
+      background-color: white;
+      color: #5566ff;
+    }
+    .vendor-singup-wrapper div div div div a:hover{
+      border-radius: 15px !important;
+      box-shadow: rgba(219, 175, 255, 0.12) 0px 1px 3px, rgba(146, 135, 227, 0.24) 0px 1px 2px;
+    }
+    .vendor-singup-wrapper div div div div a.active{
+      background-color: white !important;
+      color: #5566ff !important;
+      transition:all .3s ease-in-out;
+     
+    }
+
+    .vendor-singup-wrapper div div div.selected{
+      border-bottom: 3px solid #cfd4ff;
+    }
+    .pyop-input{
+      border-radius: 15px !important;
+    }
+    .pyop-input:focus{
+      outline: 1px solid #a9c1ff;
+    }
+    .pyop-input-label{
+      font-size: 12px;
+      color: #a9c1ff;
+    }
+    .pyop-button{
+      border-radius: 15px !important;
+      background-color: #a9c1ff;
+      color: white;
+
+      &:hover{
+        box-shadow: rgba(219, 175, 255, 0.12) 0px 1px 3px, rgba(146, 135, 227, 0.24) 0px 1px 2px;
+        transition:all .3s ease-in-out;
+        background-color: #7381ff;
+      }
+    }
+    .vendor-signup-wrapper{
+      height: 21.875rem;
+      overflow-y: auto; 
+      padding: 10px; 
+      scrollbar-width: thin; /* Makes the scrollbar thin */
+      scrollbar-color: #b0d0d6 #f1f1f1; 
+    }
+
+    .vendor-signup-wrapper::-webkit-scrollbar{
+      width: 12px; /* Width of the scrollbar */
+    }
+    .vendor-signup-wrapper::-webkit-scrollbar-track {
+      background: #d9e0e3; /* Background of the scrollbar track */
+    }
+    
+    .vendor-signup-wrapper::-webkit-scrollbar-thumb {
+      background-color: #888; 
+      border-radius: 10px; 
+      border: 3px solid #f1f1f1;    
+     }
+     
+    .vendor-signup-wrapper::-webkit-scrollbar-thumb:hover {
+      background-color: #555; 
+    
+     }
+
+    
+     .bg-vendor-pyop{
+      background-image: linear-gradient(60deg, rgba(100, 179, 244, 0.2), rgba(194, 229, 156, 0.1));    
+     }

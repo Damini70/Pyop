@@ -1,0 +1,71 @@
+{
+  "name": "pyop-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
+    "@mui/x-date-pickers": "^8.5.1",
+    "@radix-ui/react-dialog": "^1.1.13",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.13",
+    "google-map-react": "^2.2.1",
+    "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.508.0",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
+    "react-datetime-picker": "^6.0.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.56.3",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.2.1",
+    "react-redux": "^9.1.2",
+    "react-router": "^6.25.1",
+    "react-router-dom": "^6.25.1",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.8.1",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
+    "swiper": "^11.1.8",
+    "web-vitals": "^2.1.4",
+    "zod": "^3.24.4"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@size-limit/preset-app": "^11.2.0",
+    "@vitejs/plugin-react": "^4.5.1",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "size-limit": "^11.2.0",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.3.5"
+  }
+}

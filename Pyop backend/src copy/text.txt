@@ -1,0 +1,4 @@
+Model for user signup
+Model for vendor signup
+Model for Vendor Listing
+Validation for vendorsignup
