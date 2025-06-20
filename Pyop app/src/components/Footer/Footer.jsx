@@ -29,8 +29,7 @@ const Footer = () => {
               <p className="row g-0">
                 <span className="col-1">
                   <MdOutlineMarkEmailRead />
-                  <br />
-                  <FiPhone />
+                  <FiPhone className="mt-2.5" />
                 </span>
                 <span className="col-11">
                   Email: support@planownparty.com
@@ -53,9 +52,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-md-4"></div>
-          <div className="col-md-4 d-flex align-items-center ps-5">
-            <div className="w-100">
-              <span className="text-theme fs-3">Business Onboardings</span>
+          <div className="col-md-4 d-flex align-items-center">
+            <div className="w-100 mt-5">
+              <span className="text-theme">Business Onboardings</span>
               <form>
                 <div className="form-group">
                   {/* <label htmlFor="formName">Name</label> */}

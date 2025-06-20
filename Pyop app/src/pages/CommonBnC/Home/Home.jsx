@@ -18,7 +18,6 @@ import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import { setProfile } from "../../../redux/actions";
 
-
 const heroCardArr = [
   {
     Title: "Create Your Party",
@@ -99,8 +98,6 @@ const Home = () => {
     checkJWTExpiry();
   }, []);
 
-
-
   useEffect(() => {
     // Replace the history to prevent back button navigation
     navigate("/", { replace: true });
@@ -119,10 +116,11 @@ const Home = () => {
     <div>
       <div className="hero-section-wrapper pb-[2rem]">
         <Header />
-        <div className=" d-flex justify-content-center flex-column  pt-2">
+        <div className=" d-flex justify-content-center flex-column  pt-[10rem]">
           <div className="d-flex align-items-center justify-content-center">
-            <div className="d-flex flex-column m-[3rem] lg:mt-[7.5rem]">
+            <div className="d-flex flex-column m-[2rem] text-center">
               <span className="pyopText">Plan Your Own Party</span>
+              <br />
               <span className="pyopTextSmall text-center">
                 Party Planning Made Easy, Just a Tap Away.
               </span>
@@ -143,7 +141,7 @@ const Home = () => {
       </div>
       <div className="">
         <div className="hero-section">
-          <div className="h-full flex justify-around items-center">
+          <div className="h-full justify-around items-center px-5">
             <div className="d-flex flex-column">
               {/* <div className="">
                 <div className="form-control rounded-4 d-flex">
@@ -159,12 +157,12 @@ const Home = () => {
                 </div>
               </div> */}
               <div className="my-5">
-                <div className="d-flex gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 container ">
+                <div className="">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ">
                     {heroCardArr.map((item, index) => {
                       return (
                         <div
-                          className="card bg-dark border border-0 rounded-4 p-2 hover:cursor-pointer"
+                          className=" bg-dark border-0 rounded-4 p-2 hover:cursor-pointer shadow-md"
                           onClick={() => handleClickHeroCard(item.path)}
                         >
                           <div className="card card-hero-main-title-wrapper py-2 text-theme px-2 fs-4 fw-light">

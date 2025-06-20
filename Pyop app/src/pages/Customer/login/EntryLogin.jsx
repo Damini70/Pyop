@@ -25,13 +25,13 @@ const EntryLogin = () => {
   const switchTab = (tab) => {
     setActiveTab(tab);
   };
-//  useEffect(()=>{
-//   localStorage.clear()
+  //  useEffect(()=>{
+  //   localStorage.clear()
 
-//  },[])
+  //  },[])
   return (
     <>
-      <div className="customer-signup-wrapper d-flex justify-content-center align-items-center">
+      <div className="customer-signup-wrapper d-flex justify-content-center align-items-center min-vh-100">
         <div class="custom-shape-divider-bottom-1730197036">
           <svg
             data-name="Layer 1"
@@ -57,7 +57,7 @@ const EntryLogin = () => {
         </div>
         <div className="customer-signup-main-card card">
           <div className="row g-0 h-100">
-            <div className="col-5 d-flex justify-content-center customer-login-wrapper">
+            <div className="col-12 col-md-5 d-flex justify-content-center customer-login-wrapper">
               <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                 <Row className="d-flex">
                   {/* <Col sm={3}> */}
@@ -86,8 +86,10 @@ const EntryLogin = () => {
                 </Row>
               </Tab.Container>
             </div>
-            <div className="col-2 shapedividers_com-1784"></div>
-            <div className="col-5 customer-signup-card-right d-flex align-items-center">
+
+            <div className="col-2 shapedividers_com-1784 hidden md:block"></div>
+
+            <div className="col-5 customer-signup-card-right md:flex items-center hidden lg:flex">
               <Swiper
                 modules={[Autoplay]}
                 autoplay={{

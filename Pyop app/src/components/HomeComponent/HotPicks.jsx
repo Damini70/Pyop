@@ -59,11 +59,11 @@ const HotPicks = () => {
         </div>
         <div>
           {/* <Carousel data={array} /> */}
-          <div className="flex justify-between row g-2 mt-3">
-            {allServices?.map((service) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3">
+            {allServices.slice(0, 3).map((service) => {
               return (
-                <div className="col-3 ">
-                  <div className="card shadow-sm border-0 p-2 my-2">
+                <div className="mb-5 ">
+                  <div className="card shadow-2xl border-0 p-2 my-2">
                     <div>
                       <img className="w-100 rounded" src={array[0].image}></img>
                     </div>

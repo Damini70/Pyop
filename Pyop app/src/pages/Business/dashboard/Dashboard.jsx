@@ -6,18 +6,20 @@ import generalFunctions, {
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import DashboardHeader from "../../../components/DashboardHeader/DashboardHeader";
-import Select from "react-select";
 import { useLocation } from "react-router";
 import ServiceForm from "../../../components/ServiceForm";
 
 const Dashboard = () => {
   const userId = useSelector((state) => state.global.userId);
-  const location=useLocation();
-  const vendor_id=location.state;
+  const location = useLocation();
+  const vendor_id = location.state;
+
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle state
   const [userCategories, setUserCategories] = useState([]);
   const [userServiceTypeList, setUserServiceTypeList] = useState([]);
   const [userServiceLocations, setUserServiceLocations] = useState([]);
   const [userSubCategoryList, setUserSubCategoryList] = useState([]);
+
   const [serviceData, setServiceData] = useState({
     service_name: "",
     service_type: "",
@@ -31,7 +33,7 @@ const Dashboard = () => {
       price_catering_including: "",
       minimum_qty: "",
     },
-    vendor_id: userId||vendor_id,
+    vendor_id: userId || vendor_id,
   });
 
   const handleInputChange = (e) => {
@@ -63,7 +65,6 @@ const Dashboard = () => {
 
   const postService = async () => {
     const formData = new FormData();
-
     formData.append("service_name", serviceData.service_name);
     formData.append("service_type", serviceData.service_type);
     formData.append("category", serviceData.category);
@@ -72,12 +73,11 @@ const Dashboard = () => {
     formData.append("price", serviceData.price);
     formData.append("vendor_id", userId);
     formData.append("catering", JSON.stringify(serviceData.catering));
-
     serviceData.images.forEach((file) => formData.append("images", file));
+
     const apiData = await makeRequest("post", "/vendor/add-service", formData);
 
     if (apiData.status) {
-      console.log(apiData);
       toast.success(apiData.message);
       setServiceData({
         service_name: "",
@@ -95,7 +95,6 @@ const Dashboard = () => {
         vendor_id: userId,
       });
     } else {
-      console.log(apiData);
       toast.error(apiData.message);
     }
   };
@@ -104,7 +103,7 @@ const Dashboard = () => {
     const fetchServices = async () => {
       const apiData = await makeRequest(
         "get",
-        `/vendor/vendor-categories?vendorId=${userId||vendor_id}`
+        `/vendor/vendor-categories?vendorId=${userId || vendor_id}`
       );
       if (apiData.status) {
         setUserCategories(apiData.data.categories);
@@ -117,17 +116,42 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className=" d-flex w-100 bg-vendor-pyop">
-      <VendorSidebar />
-      <div className=" w-100">
-        <div className="">
-          <DashboardHeader title={"Dashboard"} isBusiness={true}/>
-          <div className="row g-0">
-            <div className="col-6">
-            </div>
-            <div className="col-6 p-2">
-            <ServiceForm  userId={userId} vendor_id={vendor_id} userCategories={userCategories} userSubCategoryList={userSubCategoryList} userServiceTypeList={userServiceTypeList}/>
-            </div>
+    <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
+      {/* Toggle Sidebar Button */}
+      <div className="md:hidden p-4 bg-white shadow">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="text-sm px-4 py-2 bg-blue-600 text-white rounded-md"
+        >
+          {sidebarOpen ? "Close Menu" : "Open Menu"}
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <div
+        className={`${
+          sidebarOpen ? "block" : "hidden"
+        } md:block w-full md:w-[15rem] bg-white shadow md:shadow-none z-50 h-screen`}
+      >
+        <VendorSidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1">
+        <DashboardHeader title="Dashboard" isBusiness={true} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column Placeholder */}
+          <div className="hidden lg:block">{/* Optional content */}</div>
+
+          {/* Right Column - Service Form */}
+          <div className="">
+            <ServiceForm
+              userId={userId}
+              vendor_id={vendor_id}
+              userCategories={userCategories}
+              userSubCategoryList={userSubCategoryList}
+              userServiceTypeList={userServiceTypeList}
+            />
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const trasparentStyle = {
   backgroundColor: "transparent",
-  height: "20vh",
+  height: "10vh",
 };
 
 const Header = () => {
@@ -52,7 +52,7 @@ const Header = () => {
                       ></img>{" "}
                     </div>
                   </div>
-                  <div className="col-9 flex-column">
+                  <div className="col-9 flex-column hidden lg:block">
                     <div>
                       <span className="text-theme fs-6 fw-light">
                         {profile?.name}

@@ -106,9 +106,7 @@
         background-color: #7381ff;
       }
     }
-    .vendor-signup-wrapper{
-      height: 21.875rem;
-      overflow-y: auto; 
+    .vendor-signup-wrapper{ 
       padding: 10px; 
       scrollbar-width: thin; /* Makes the scrollbar thin */
       scrollbar-color: #b0d0d6 #f1f1f1; 

@@ -16,6 +16,7 @@ const CustomerDashboard = () => {
   const [vendorDetails, setVendorDetails] = useState([]);
   const state = useSelector((state) => state.stableData.filterData);
   const [localFilterData, setLocalFilterData] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -83,25 +84,49 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="d-flex">
-      <Sidebar />
+    <div className="d-flex flex-column flex-md-row w-100 min-vh-100">
+      {/* Mobile Sidebar Toggle Button */}
+      <div className="d-md-none p-3 bg-white shadow-sm w-100">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="btn btn-primary btn-sm"
+        >
+          {sidebarOpen ? "Close Menu" : "Open Menu"}
+        </button>
+      </div>
 
-      <div className="  w-100 ms-3">
+      {/* Sidebar */}
+      <div
+        className={`${
+          sidebarOpen ? "d-block" : "d-none"
+        } d-md-block bg-white border-end vh-100`}
+        style={{ width: "250px" }}
+      >
+        <Sidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="w-100 ms-md-3 p-1">
         <DashboardHeader title={"Dashboard"} isCustomer={true} />
-        <div className="row g-2 mt-3">
+        <div className="row g-3">
           {allServices?.map((service) => {
             return (
-              <div className="col-3 ">
-                <div className="card shadow-sm border border-0 p-2 my-2">
+              <div
+                key={service._id}
+                className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+              >
+                <div className="card shadow-sm border border-0 p-2 my-2 w-100 d-flex flex-column justify-content-between">
                   <div>
                     <img
-                      className="w-100 rounded"
-                      src={service.images[0].data}
-                    ></img>
+                      className="w-100 rounded object-fit-cover"
+                      src={service.images[0]?.data}
+                      alt={service.service_name}
+                      style={{ height: "180px", objectFit: "cover" }}
+                    />
                   </div>
                   <div className="mt-2 d-flex flex-column">
                     <span className="card-key">
-                      <span className="font-bold">{service.service_name}</span>
+                      <span className="fw-bold">{service.service_name}</span>
                     </span>
                     <span className="card-key">
                       <span className="card-value">{service.sub_category}</span>
@@ -111,22 +136,13 @@ const CustomerDashboard = () => {
                       service type:{" "}
                       <span className="card-value">{service.service_type}</span>
                     </span>
-                    {/* <span className="card-key">
-                      {" "}
-                      sub category:{" "}
-                      <span className="card-value">{service.sub_category}</span>
-                    </span> */}
                     <span className="card-key">
                       {" "}
                       price: <span className="card-value">{service.price}</span>
                     </span>
-                    {/* <span className="card-key">
-                      description:{" "}
-                      <span className="card-value">{service.description}</span>
-                    </span> */}
-                    <div className="flex justify-between">
-                      <span>Contact </span>
-                      {service.vendor_id.contact_number}
+                    <div className="d-flex justify-content-between">
+                      <span>Contact</span>
+                      <span>{service.vendor_id.contact_number}</span>
                     </div>
                   </div>
                 </div>

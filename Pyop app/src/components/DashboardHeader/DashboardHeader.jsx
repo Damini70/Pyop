@@ -8,19 +8,21 @@ import { useLocation, useNavigate } from "react-router";
 import { SquarePen } from "lucide-react";
 import { Button } from "@mui/material";
 
-
-const DashboardHeader = ({ title,isBusiness }) => {
+const DashboardHeader = ({ title, isBusiness }) => {
   const vendorId = useSelector((state) => state.global.userId);
-  const proImg=useSelector((state)=>state.global.profileImg)
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
+  const proImg = useSelector((state) => state.global.profileImg);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getImage = async () => {
     try {
-      const res = await makeRequest("get", `/vendor/vendor-profilepic?vendorId=${vendorId}`);
+      const res = await makeRequest(
+        "get",
+        `/vendor/vendor-profilepic?vendorId=${vendorId}`
+      );
 
-      if (res?.status) {   
-          dispatch(setProfileImg(res.profile_pic))
+      if (res?.status) {
+        dispatch(setProfileImg(res.profile_pic));
       } else {
         console.error("Failed to fetch profile picture:", res);
       }
@@ -30,14 +32,11 @@ const DashboardHeader = ({ title,isBusiness }) => {
   };
 
   useEffect(() => {
-    if(isBusiness){
+    if (isBusiness) {
       getImage();
     }
-  }, [vendorId&&isBusiness]);
-  
+  }, [vendorId && isBusiness]);
 
- 
-  
   return (
     <div className="d-flex flex-column p-3">
       <div className="d-flex justify-content-between align-items-center">
@@ -54,7 +53,6 @@ const DashboardHeader = ({ title,isBusiness }) => {
         </div>
       </div>
       <hr className="mx-3 m-0" />
-
     </div>
   );
 };

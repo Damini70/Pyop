@@ -39,9 +39,9 @@ const EntryVendor = () => {
     <div className="container-fluid vendor-entry">
       <div className="card vendor-entry-card">
         <div className="row g-0 h-100">
-          <div className="col-5 h-100">
+          <div className="col-12 col-md-5 h-100 d-flex justify-content-center align-items-center">
             <div className="p-5 h-100">
-              <div className="vendor-singup-wrapper ">
+              <div className="vendor-singup-wrapper flex ">
                 <Tab.Container
                   id="left-tabs-example"
                   defaultActiveKey={key}
@@ -98,8 +98,8 @@ const EntryVendor = () => {
               </div>
             </div>
           </div>
-          <div className="col-2 shapedividers_com-5238 h-100"></div>
-          <div className="col-5 vendor-entry-card-right rounded-end">
+          <div className="col-2 shapedividers_com-5238 h-100 hidden md:block lg:block"></div>
+          <div className="col-5 vendor-entry-card-right rounded-end hidden md:block lg:block">
             <div className="d-flex align-items-center h-100">
               <Swiper
                 modules={[Autoplay]}
