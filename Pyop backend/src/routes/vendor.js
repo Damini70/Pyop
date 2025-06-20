@@ -64,7 +64,7 @@ router.delete("/vendor-profilepic",authenticateToken,handleDeleteProfilePic)
 router.delete("/delete-vendor-listing", authenticateToken,handleDeleteVendorListingById)
 
 // Banner apis
-router.get("/service/birthday",authenticateToken,handleBirthdayBanner);
+router.get("/service/birthday",handleBirthdayBanner);
 
 
 
