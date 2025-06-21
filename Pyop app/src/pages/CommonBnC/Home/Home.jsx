@@ -200,9 +200,9 @@ const Home = () => {
         </div>
       </div>
       <Suspense fallback={<CircularProgress />}>
-        <HotPicks />
-        <HotPicks />
-        <HotPicks />
+        <HotPicks banner="birthday"/>
+        <HotPicks banner="wedding"/>
+        <HotPicks banner="party"/>
       </Suspense>
       <Explore />
       <Footer />

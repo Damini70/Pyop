@@ -122,6 +122,7 @@ const guestControl = [
   "Media and Press",
   "Staff and Volunteers",
 ];
+
 const venueTypes = [
   "Event Spaces",
   "Restaurants and Bars",
@@ -153,6 +154,7 @@ export default function Step1Form({ userData, updateUserData }) {
       })),
     };
   });
+
   const formatToLabelValue = (arr) =>
     arr.map((item) => ({
       label: item,
@@ -188,119 +190,124 @@ export default function Step1Form({ userData, updateUserData }) {
   };
 
   console.log({ timeValue }, { userData });
-  return (
-    <div className="prose prose-invert">
-      {/* <h2>Personal Info</h2> */}
-      <p>Please enter the following details:</p>
 
-      <div>
-        <select
-          placeholder="Select Your Event"
-          value={userData.eventType}
-          onChange={(e) => updateUserData("eventType", e.target.value)}
-        >
-          <option vaue="">Select your Event</option>
-          {updatedEvents.map((event) => {
-            return <option value={event.eventType}>{event.eventType}</option>;
-          })}
-        </select>
+  return (
+    <div className="max-w-2xl mx-auto bg-white">
+      <div className="">
+        <h4 className="text-xl font-bold text-gray-800 mb-2">Event Details</h4>
+        <p className="text-gray-600">Please enter the following details:</p>
       </div>
-      {userData?.eventType && (
+
+      <div className="space-y-6">
+        {/* Event Type Selection */}
         <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Event Type
+          </label>
           <select
-            placeholder="Select Your Specific Event"
-            value={userData.eventName}
-            onChange={(e) => updateUserData("eventName", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            value={userData.eventType}
+            onChange={(e) => updateUserData("eventType", e.target.value)}
           >
-            <option value="" disabled>
-              Select your Event Name
-            </option>
-            {selectedEvent[userData.eventType].map((item) => {
-              return <option value={item.value}>{item.label}</option>;
-            })}
+            <option value="">Select your Event</option>
+            {updatedEvents.map((event) => (
+              <option key={event.id} value={event.eventType}>
+                {event.eventType}
+              </option>
+            ))}
           </select>
         </div>
-      )}
-      <div className="mb-4">
-        <label className="mr-2">No of Guests</label>
-        <input
-          type="number"
-          min="1"
-          onChange={(e) => {
-            const value = e.target.value;
-            // Allow only digits and ensure number > 0
-            if (/^[1-9][0-9]*$/.test(value)) {
-              updateUserData("no_of_guests", value);
-            }
-            if (value < 0) {
-              toast.error("Enter valid number");
-            }
-          }}
-          placeholder="Enter number of guests"
-        />
-      </div>
 
-      {/* <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select guest categories:
-        </label>
-
-        <div className="border border-gray-300 rounded-md p-3 max-h-48 overflow-y-auto bg-gray-50">
-          {options.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center space-x-2 py-1 cursor-pointer hover:bg-gray-100 px-2 rounded"
-            >
-              <input
-                type="checkbox"
-                value={option.value}
-                checked={selectedValues.includes(option.value)}
-                onChange={handleSelectChange}
-                className="form-checkbox h-4 w-4 text-blue-600"
-              />
-              <span className="text-gray-700">{option.label}</span>
+        {/* Specific Event Selection */}
+        {userData?.eventType && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Specific Event
             </label>
-          ))}
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              value={userData.eventName}
+              onChange={(e) => updateUserData("eventName", e.target.value)}
+            >
+              <option value="" disabled>
+                Select your Event Name
+              </option>
+              {selectedEvent[userData.eventType].map((item, index) => (
+                <option key={index} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Number of Guests */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Number of Guests
+          </label>
+          <input
+            type="number"
+            min="1"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={userData.no_of_guests}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Allow only digits and ensure number > 0
+              if (/^[1-9][0-9]*$/.test(value) || value === "") {
+                updateUserData("no_of_guests", value);
+              }
+              if (value < 0) {
+                toast.error("Enter valid number");
+              }
+            }}
+            placeholder="Enter number of guests"
+          />
         </div>
-      </div> */}
-      <div>
-        {" "}
-        <label className="block font-medium mb-1">Venue Details</label>
-        <select
-          placeholder="Select your Venue"
-          onChange={(e) => updateUserData("venue", e.target.value)}
-        >
-          <option vaue="">Select your Venue</option>
-          {venueTypesFormatted.map((venue) => {
-            return <option value={venue.value}>{venue.label}</option>;
-          })}
-        </select>
-      </div>
-      <div>
-        {" "}
-        <label className="block font-medium mb-1">Scheduled Time</label>
-        {/* <input
-          type="text"
-          placeholder="Scheduled Time"
-          value={userData.scheduledTime}
-          onChange={(e) => updateUserData("scheduledTime", e.target.value)}
-        /> */}
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DateTimePicker", "DateTimePicker"]}>
-            <DateTimePicker
-              label="Controlled picker"
-              value={timeValue}
-              onChange={(newValue) => {
-                setTimeValue(newValue);
-                updateUserData(
-                  "scheduledTime",
-                  dayjs(newValue).format("MMMM D, YYYY h:mm A")
-                );
-              }}
-            />
-          </DemoContainer>
-        </LocalizationProvider>
-        <p>Scheduled for: {timeValue.format("MMMM D, YYYY h:mm A")}</p>
+
+        {/* Venue Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Venue Details
+          </label>
+          <select
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            value={userData.venue}
+            onChange={(e) => updateUserData("venue", e.target.value)}
+          >
+            <option value="">Select your Venue</option>
+            {venueTypesFormatted.map((venue, index) => (
+              <option key={index} value={venue.value}>
+                {venue.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Scheduled Time */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Scheduled Time
+          </label>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DateTimePicker", "DateTimePicker"]}>
+              <DateTimePicker
+                label="Controlled picker"
+                value={timeValue}
+                onChange={(newValue) => {
+                  setTimeValue(newValue);
+                  updateUserData(
+                    "scheduledTime",
+                    dayjs(newValue).format("MMMM D, YYYY h:mm A")
+                  );
+                }}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+          <p className="mt-2 text-sm text-gray-600">
+            Scheduled for: {timeValue.format("MMMM D, YYYY h:mm A")}
+          </p>
+        </div>
       </div>
     </div>
   );

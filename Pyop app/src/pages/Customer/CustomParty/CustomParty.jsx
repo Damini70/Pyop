@@ -251,27 +251,32 @@ export default function CustomParty() {
   }
   // console.log({ updatedEvents });
   return (
-    <div className="p-4 max-w-lg mx-auto">
-      <h2 className="text-xl font-bold mb-4">Event Type</h2>
-      <ul className="space-y-3">
+    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">Event Type</h2>
+
+      <ul className="space-y-4">
         {updatedEvents.map(({ id, eventType, items }) => (
           <li key={id}>
-            <label className="flex items-center gap-2 font-medium">
+            <label className="flex items-center gap-2 text-lg font-semibold text-gray-700">
               <input
                 type="checkbox"
+                className="h-4 w-4 text-blue-600"
                 checked={checkedParents[id] || false}
                 onChange={() => toggleParent(id)}
               />
               {eventType}
             </label>
-
             {checkedParents[id] && (
-              <ul className="ml-6 mt-2 space-y-1">
+              <ul className="ml-6 mt-2 space-y-2">
                 {items.map((child, index) => (
-                  <li key={index} className="flex items-center gap-2">
+                  <li
+                    key={index}
+                    className="flex items-center gap-2 text-sm text-gray-600"
+                  >
                     <input
                       type="checkbox"
                       id={`${id}-${index}`}
+                      className="h-4 w-4 text-blue-600"
                       checked={checkedEvent === child.value}
                       onChange={() =>
                         setcheckedEvent((prev) =>
@@ -287,174 +292,198 @@ export default function CustomParty() {
           </li>
         ))}
       </ul>
-      {/* <div><input type="checkbox" checked={openGuest} onChange={()=>setOpenGuest(!openGuest)}/><lebel>Guest Control</lebel></div>
-   {openGuest&&    <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select guest categories:
-        </label>
 
-        <div className="border border-gray-300 rounded-md p-3 max-h-48 overflow-y-auto bg-gray-50">
-          {options.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center space-x-2 py-1 cursor-pointer hover:bg-gray-100 px-2 rounded"
-            >
-              <input
-                type="checkbox"
-                value={option.value}
-                checked={selectedValues.includes(option.value)}
-                onChange={handleSelectChange}
-                className="form-checkbox h-4 w-4 text-blue-600"
-              />
-              <span className="text-gray-700">{option.label}</span>
+      <div className="space-y-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={openVenue}
+            onChange={() => setOpenVenue(!openVenue)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Venue</span>
+        </label>
+        {openVenue && (
+          <div className="space-y-1">
+            <label className="block font-medium text-sm text-gray-700">
+              Venue Details
             </label>
-          ))}
-        </div>
-      </div>} */}
-      <div>
-        {" "}
-        <input
-          type="checkbox"
-          checked={openVenue}
-          onChange={() => setOpenVenue(!openVenue)}
-        />
-        <label>Venue</label>
+            <select
+              className="w-full p-2 border rounded bg-gray-50"
+              onChange={(e) => setSelectVenue(e.target.value)}
+            >
+              <option value="" disabled>
+                Select your Venue
+              </option>
+              {venueTypes.map((venue) => (
+                <option key={venue} value={venue}>
+                  {venue}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
-      {openVenue && (
-        <div>
-          {" "}
-          <label className="block font-medium mb-1">Venue Details</label>
-          <select
-            placeholder="Select your Venue"
-            onChange={(e) => setSelectVenue(e.target.value)}
-          >
-            <option vaue="" disabled>
-              Select your Venue
-            </option>
-            {venueTypes.map((venue) => {
-              return <option value={venue}>{venue}</option>;
-            })}
-          </select>
-        </div>
-      )}
-      <div>
-        <input
-          type="checkbox"
-          checked={openMusic}
-          onChange={() => setOpenMusic(!openMusic)}
-        />
-        <lebel>Add Music</lebel>
+
+      <div className="space-y-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={openMusic}
+            onChange={() => setOpenMusic(!openMusic)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Add Music</span>
+        </label>
+        {openMusic && (
+          <div className="space-y-1">
+            <label className="block font-medium text-sm text-gray-700">
+              Music
+            </label>
+            <select
+              className="w-full p-2 border rounded bg-gray-50"
+              onChange={(e) => setMusic(e.target.value)}
+            >
+              <option value="" disabled>
+                Select your music
+              </option>
+              <option value="dj">DJ</option>
+              <option value="live_band">Live Band</option>
+              <option value="solo_instrument">
+                Solo Performance Instrument
+              </option>
+              <option value="dance_floor">Dance Floor</option>
+              <option value="speakers">Speakers as per the requirement</option>
+            </select>
+          </div>
+        )}
       </div>
-      {openMusic && (
-        <div>
-          <label className="block font-medium mb-1">Music</label>
-          <select onChange={(e) => setMusic(e.target.value)}>
-            <option value="" disabled>
-              Select your music
-            </option>
-            <option value="dj">DJ</option>
-            <option value="live_band">Live Band</option>
-            <option value="solo_instrument">Solo Performance Instrument</option>
-            <option value="dance_floor">Dance Floor</option>
-            <option value="speakers">Speakers as per the requirement</option>
-          </select>
-        </div>
-      )}
-      <div>
-        <input
-          type="checkbox"
-          checked={openDecoration}
-          onChange={() => setOpenDecoration(!openDecoration)}
-        />
-        <lebel>Decoration</lebel>
+
+      <div className="space-y-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={openDecoration}
+            onChange={() => setOpenDecoration(!openDecoration)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Decoration</span>
+        </label>
+        {openDecoration && (
+          <div className="space-y-1">
+            <label className="block font-medium text-sm text-gray-700">
+              Choose Decoration Option
+            </label>
+            <select
+              className="w-full p-2 border rounded bg-gray-50"
+              onChange={(e) => setDecoration(e.target.value)}
+            >
+              <option value="" disabled>
+                Select an option
+              </option>
+              <option value="themed">Themed</option>
+              <option value="lighting">Lighting</option>
+              <option value="wall">Wall</option>
+              <option value="ceiling">Ceiling</option>
+              <option value="outdoor">Outdoor</option>
+            </select>
+          </div>
+        )}
       </div>
-      {openDecoration && (
-        <div>
-          <label for="decoration">Choose Decoration Option:</label>
-          <select
-            id="decoration"
-            name="decoration"
-            onChange={(e) => setDecoration(e.target.value)}
-          >
-            <option value="" disabled>
-              Select an option
-            </option>
-            <option value="themed">Themed</option>
-            <option value="lighting">Lighting</option>
-            <option value="wall">Wall</option>
-            <option value="ceiling">Ceiling</option>
-            <option value="outdoor">Outdoor</option>
-          </select>
-        </div>
-      )}
-      {/* <div><input type="checkbox" checked={openInvitation} onChange={()=>setOpenInvitation(!openInvitation)}/><label>Invitation Design</label></div>
-      {openInvitation&&<div> <label for="invitationType">Choose Invitation Type:</label>
-      <select
-        id="invitationType"
-        name="invitationType"
-        onChange={(e) => setInvitation(e.target.value)}
-      >
-        <option value="">-- Select an option --</option>
-        <option value="physical_card">Physical Card</option>
-        <option value="digital_card">Digital Card</option>
-        <option value="video">Video</option>
-        <option value="text_message">Text Message</option>
-        <option value="pitch_design">Pitch Design</option>
-      </select></div>} */}
-      <div>
-        {" "}
-        <label className="block font-medium mb-1">Location</label>
-        <select onChange={(e) => setLocation(e.target.value)} value={location}>
+
+      <div className="space-y-2">
+        <label className="block font-medium text-sm text-gray-700">
+          Location
+        </label>
+        <select
+          className="w-full p-2 border rounded bg-gray-50"
+          onChange={(e) => setLocation(e.target.value)}
+          value={location}
+        >
           <option value="" disabled>
             Select your location
           </option>
-          {locations.map((location) => {
-            return <option value={location.value}>{location.label}</option>;
-          })}
+          {locations.map((location) => (
+            <option key={location.value} value={location.value}>
+              {location.label}
+            </option>
+          ))}
         </select>
       </div>
-      <div>
+
+      <div className="flex items-center gap-2">
         <input
           type="checkbox"
           checked={catering}
           onChange={(e) => setCatering(!catering)}
+          className="h-4 w-4 text-blue-600"
         />
-        <label>Catering</label>
+        <label className="text-gray-700">Catering</label>
       </div>
-      <div>
-        {" "}
-        <label className="block font-medium mb-1">Scheduled Time</label>
+
+      <div className="space-y-2">
+        <label className="block font-medium text-sm text-gray-700">
+          Scheduled Time
+        </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DateTimePicker", "DateTimePicker"]}>
+          <DemoContainer components={["DateTimePicker"]}>
             <DateTimePicker
-              label="Controlled picker"
+              label="Select Date & Time"
               value={timeValue}
-              onChange={(newValue) => {
-                setTimeValue(newValue);
-              }}
+              onChange={(newValue) => setTimeValue(newValue)}
             />
           </DemoContainer>
         </LocalizationProvider>
-        <p>Scheduled for: {timeValue.format("MMMM D, YYYY h:mm A")}</p>
+        <p className="text-gray-500 text-sm">
+          Scheduled for: {timeValue.format("MMMM D, YYYY h:mm A")}
+        </p>
       </div>
-      <div className="mt-2">
-        <label>Video</label>
-        <input type="checkbox" onChange={(e) => setVideo(!video)} />
+
+      <div className="grid grid-cols-2 gap-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            onChange={(e) => setVideo(!video)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Video</span>
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            onChange={(e) => setPhotography(!photo)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Photography</span>
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            onChange={(e) => setGaming(!gaming)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Gaming</span>
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            onChange={(e) => setTransport(!transport)}
+            className="h-4 w-4 text-blue-600"
+          />
+          <span className="text-gray-700">Transportation</span>
+        </label>
       </div>
-      <div className="mt-2">
-        <label>Photography</label>
-        <input type="checkbox" onChange={(e) => setPhotography(!photography)} />
+
+      <div className="pt-4">
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
       </div>
-      <div className="mt-2">
-        <label>Gaming</label>
-        <input type="checkbox" onChange={(e) => setGaming(!gaming)} />
-      </div>
-      <div className="mt-2">
-        <label>Transportation</label>
-        <input type="checkbox" onChange={(e) => setTransport(!transport)} />
-      </div>
-      
-      <Button onClick={handleSubmit}>Submit</Button>
     </div>
   );
 }

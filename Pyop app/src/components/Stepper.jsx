@@ -110,7 +110,7 @@ export default function StepperForm({ steps }) {
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-8">
       {/* Stepper Header */}
-      <div className="flex flex-row justify-between p-[1rem] items-center gap-6 bg-gray-900 rounded-lg mb-6">
+      <div className="flex flex-row justify-between p-[1rem] items-center gap-6 bg-gray-900 rounded-lg">
         {steps.map((step, index) => {
           const Icon = step.icon;
           const isCompleted = currentStep > step.id;
@@ -162,7 +162,7 @@ export default function StepperForm({ steps }) {
 
       {/* Form Content */}
       <Card className="bg-gray-800 text-white border-gray-700">
-        <div className="p-4 font-semibold">
+        <div className="font-semibold">
           Step {currentStep} of {steps.length} — {current?.description}
         </div>
 
@@ -173,20 +173,22 @@ export default function StepperForm({ steps }) {
       </Card>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <Button
           variant="outlined"
           onClick={prevStep}
           disabled={currentStep === 1}
+          className="w-24 cursor-pointer disabled:cursor-not-allowed"
         >
           Previous
         </Button>
 
-        <div className="flex gap-2">
+        <div className="">
           {currentStep < steps.length ? (
             <Button
               onClick={nextStep}
               disabled={currentStep === 1 ? !isStep1Valid : !isStep2Valid}
+              className="w-24 cursor-pointer disabled:cursor-not-allowed"
             >
               Next
             </Button>
@@ -194,7 +196,7 @@ export default function StepperForm({ steps }) {
             <Button
               onClick={handleSubmit}
               disabled={!isStep1Valid || !isStep2Valid}
-              className="bg-green-600 hover:bg-green-700 text-white"
+              className="bg-green-600 hover:bg-green-700 text-white cursor-pointer disabled:cursor-not-allowed"
             >
               Submit
             </Button>

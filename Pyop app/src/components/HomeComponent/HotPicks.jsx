@@ -6,6 +6,9 @@ import Carousel from "../Carousel/Carousel";
 import { useEffect } from "react";
 import { makeRequest } from "../../services/generalFunctions";
 import { useState } from "react";
+import Birthday from "../../Images/birthday.png";
+import Wedding from "../../Images/wedding.png";
+import Party from "../../Images/party.png";
 
 const array = [
   {
@@ -40,27 +43,48 @@ const array = [
   },
 ];
 
-const HotPicks = () => {
+const HotPicks = ({ banner }) => {
   const [allServices, setAllServices] = useState([]);
   useEffect(() => {
     async function BannerData() {
-      const res = await makeRequest("get", "vendor/service/birthday");
-      if (res.status) {
-        setAllServices(res.birthdayServices);
+      let res;
+
+      if (banner === "birthday") {
+        res = await makeRequest("get", "vendor/service/birthday");
+        if (res?.status) {
+          setAllServices(res.birthdayServices);
+        }
+      }
+
+      if (banner === "wedding") {
+        res = await makeRequest("get", "vendor/service/wedding");
+        if (res?.status) {
+          setAllServices(res.weddingServices);
+        }
       }
     }
+
     BannerData();
-  }, []);
+  }, [banner]); // Add `banner` to dependencies if it's expected to change
+
   return (
     <div className="hot-picks-wrapper">
       <div className="container">
         <div className="d-flex justify-content-center py-5">
-          <Banner />
+          <Banner
+            pic={
+              banner === "birthday"
+                ? Birthday
+                : banner === "wedding"
+                ? Wedding
+                : Party
+            }
+          />
         </div>
         <div>
           {/* <Carousel data={array} /> */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3">
-            {allServices.slice(0, 3).map((service) => {
+            {allServices?.slice(0, 3).map((service) => {
               return (
                 <div className="mb-5 ">
                   <div className="card shadow-2xl border-0 p-2 my-2">

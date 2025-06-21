@@ -113,9 +113,9 @@ const CustomerDashboard = () => {
             return (
               <div
                 key={service._id}
-                className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3"
               >
-                <div className="card shadow-sm border border-0 p-2 my-2 w-100 d-flex flex-column justify-content-between">
+                <div className="card shadow-sm border p-2 my-2 w-100 d-flex flex-column justify-content-between">
                   <div>
                     <img
                       className="w-100 rounded object-fit-cover"

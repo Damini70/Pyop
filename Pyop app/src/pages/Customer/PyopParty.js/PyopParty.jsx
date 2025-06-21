@@ -202,8 +202,8 @@ const PyopParty = () => {
     e.preventDefault();
     if (validate()) {
       const payload = {
-        event:eventName,
-        guestControl:guest,
+        event: eventName,
+        guestControl: guest,
         email: email,
         music: music,
         catering: catering,
@@ -248,7 +248,9 @@ const PyopParty = () => {
     <>
       {loading && <CircularProgress />}
       {text ? (
-        <h2>{text}</h2>
+        <div className="flex justify-center items-center h-[100vh] p-5">
+          <h2 className="text-center text-xl font-semibold">{text}</h2>
+        </div>
       ) : (
         <form
           onSubmit={handleSubmit}

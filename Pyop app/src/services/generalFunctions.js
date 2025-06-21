@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:4000/"; // Change this to your backend base URL
+const baseURL =  import.meta.env.BaseURL // Change this to your backend base URL
 
 // Create an axios instance
 const api = axios.create({

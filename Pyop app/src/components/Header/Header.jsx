@@ -41,28 +41,24 @@ const Header = () => {
           </Nav>
           <div>
             {profile?.name && (
-              <div className="card profile-sectionNavbar p-2 px-3 rounded-4">
-                <div className="row g-4">
-                  <div className="col-3">
-                    <div className="profile-image-wrapper">
-                      <img
-                        className="profile-image-navbar-style"
-                        src="https://www.shutterstock.com/image-photo/happy-handsome-caucasian-man-casual-260nw-2378378987.jpg"
-                        loading="lazy"
-                      ></img>{" "}
-                    </div>
+              <div className="card profile-sectionNavbar md:p-3 lg:p-3 rounded-2 shadow-md bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50">
+                <div className="flex items-center gap-2">
+                  <div className="w-16 h-16 flex-shrink-0">
+                    <img
+                      className="w-full h-full rounded-full object-cover border-2 border-pink-400 shadow-sm"
+                      src="https://www.shutterstock.com/image-photo/happy-handsome-caucasian-man-casual-260nw-2378378987.jpg"
+                      alt="Profile"
+                      loading="lazy"
+                    />
                   </div>
-                  <div className="col-9 flex-column hidden lg:block">
-                    <div>
-                      <span className="text-theme fs-6 fw-light">
-                        {profile?.name}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-theme text-12px fw-light">
-                        {profile?.address}
-                      </span>
-                    </div>
+
+                  <div className="flex-col overflow-hidden hidden md:flex lg:flex">
+                    <span className="text-purple-700 text-base font-semibold truncate">
+                      {profile?.name}
+                    </span>
+                    <span className="text-pink-600 text-sm font-light truncate">
+                      {profile?.address}
+                    </span>
                   </div>
                 </div>
               </div>
