@@ -12,7 +12,9 @@ const Explore = () => {
             className="btn btn-submit-dark disabled"
             // onClick={() => setToggle(!toggle)}
           >
-            <span className="text-theme">Explore More</span>
+            <span className="text-theme text-black font-bold">
+              Explore More
+            </span>
           </button>
         </div>
       ) : (
