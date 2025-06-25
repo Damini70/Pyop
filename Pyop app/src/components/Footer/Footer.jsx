@@ -54,10 +54,9 @@ const Footer = () => {
           <div className="col-md-4"></div>
           <div className="col-md-4 d-flex align-items-center">
             <div className="w-100 mt-5">
-              <span className="text-theme">Business Onboardings</span>
-              <form>
+              {/* <span className="text-theme">Business Onboardings</span> */}
+              {/* <form>
                 <div className="form-group">
-                  {/* <label htmlFor="formName">Name</label> */}
                   <input
                     type="text"
                     className="form-control-dark form-control my-2"
@@ -66,7 +65,6 @@ const Footer = () => {
                   />
                 </div>
                 <div className="form-group">
-                  {/* <label htmlFor="formMobile">Mobile Number</label> */}
                   <input
                     type="text"
                     className="form-control-dark form-control my-2"
@@ -75,7 +73,6 @@ const Footer = () => {
                   />
                 </div>
                 <div className="form-group">
-                  {/* <label htmlFor="formPassword">Password</label> */}
                   <input
                     type="password"
                     className="form-control form-control-dark"
@@ -86,7 +83,7 @@ const Footer = () => {
                 <button type="button" className="btn btn-submit-dark my-2">
                   Submit{" "}
                 </button>
-              </form>
+              </form> */}
             </div>
           </div>
         </div>

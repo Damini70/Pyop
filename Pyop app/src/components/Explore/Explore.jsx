@@ -9,8 +9,8 @@ const Explore = () => {
       {!toggle ? (
         <div className="explore-more-wrapper">
           <button
-            className="btn btn-submit-dark"
-            onClick={() => setToggle(!toggle)}
+            className="btn btn-submit-dark disabled"
+            // onClick={() => setToggle(!toggle)}
           >
             <span className="text-theme">Explore More</span>
           </button>

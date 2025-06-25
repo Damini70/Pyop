@@ -6,7 +6,7 @@ import Carousel from "../Carousel/Carousel";
 import { useEffect } from "react";
 import { makeRequest } from "../../services/generalFunctions";
 import { useState } from "react";
-import Birthday from "../../Images/birthday.png";
+import Birthday from "../../Images/birthday.jpg";
 import Wedding from "../../Images/wedding.png";
 import Party from "../../Images/party.png";
 
