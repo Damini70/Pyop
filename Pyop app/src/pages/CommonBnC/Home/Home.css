@@ -65,15 +65,20 @@ background-size: cover;
                      url('../../../Images/Landing/Hero-Image.webp');
   }
 }
-@media(max-width: 413px){
-    .pyopText{
+@media (max-width: 497px) {
+  .pyopText {
     font-size: 3rem;
-  
+  }
 }
-}
-@media(max-width: 497px){
-      .pyopText{
+@media (min-width: 498px) and (max-width: 699px) {
+  .pyopText {
     font-size: 4rem;
-  
+  }
 }
+
+@media (max-width: 413px) {
+  .pyopText {
+    font-size: 2rem;
+  }
 }
+

@@ -116,7 +116,7 @@ const Home = () => {
     <div>
       <div className="hero-section-wrapper pb-[2rem]">
         <Header />
-        <div className=" d-flex justify-content-center flex-column  pt-[10rem]">
+        <div className=" d-flex justify-content-center flex-column pt-[3rem] md:pt-[9rem] lg:pt-[10rem]">
           <div className="d-flex align-items-center justify-content-center">
             <div className="d-flex flex-column m-[2rem] text-center">
               <span className="pyopText">Plan Your Own Party</span>
@@ -200,9 +200,9 @@ const Home = () => {
         </div>
       </div>
       <Suspense fallback={<CircularProgress />}>
-        <HotPicks banner="birthday"/>
-        <HotPicks banner="wedding"/>
-        <HotPicks banner="party"/>
+        <HotPicks banner="birthday" />
+        <HotPicks banner="wedding" />
+        <HotPicks banner="party" />
       </Suspense>
       <Explore />
       <Footer />
