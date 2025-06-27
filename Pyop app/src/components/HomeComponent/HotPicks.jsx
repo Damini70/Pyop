@@ -68,7 +68,7 @@ const HotPicks = ({ banner }) => {
   }, [banner]); // Add `banner` to dependencies if it's expected to change
 
   return (
-    <div className="hot-picks-wrapper">
+    <div className="">
       <div className="container">
         <div className="d-flex justify-content-center py-5">
           <Banner

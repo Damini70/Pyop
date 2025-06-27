@@ -5,7 +5,7 @@ import ExploreSection from "../ExploreSection/ExploreSection";
 const Explore = () => {
   const [toggle, setToggle] = useState(false);
   return (
-    <div className="mb-4">
+    <div className="">
       {!toggle ? (
         <div className="explore-more-wrapper">
           <button

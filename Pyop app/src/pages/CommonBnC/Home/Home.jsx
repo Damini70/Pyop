@@ -114,8 +114,8 @@ const Home = () => {
 
   return (
     <div>
-      <div className="hero-section-wrapper pb-[2rem]">
-        <Header />
+      <div className="hero-section-wrapper pb-[2rem] mt-[50px]">
+        {/* <Header /> */}
         <div className=" d-flex justify-content-center flex-column pt-[3rem] md:pt-[9rem] lg:pt-[10rem]">
           <div className="d-flex align-items-center justify-content-center">
             <div className="d-flex flex-column m-[2rem] text-center">
@@ -162,7 +162,7 @@ const Home = () => {
                     {heroCardArr.map((item, index) => {
                       return (
                         <div
-                          className=" bg-dark border-0 rounded-4 p-2 hover:cursor-pointer shadow-md"
+                          className=" bg-dark border-0 rounded-4 p-2 hover:cursor-pointer shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                           onClick={() => handleClickHeroCard(item.path)}
                         >
                           <div className="card card-hero-main-title-wrapper py-2 text-theme px-2 fs-4 fw-light">
