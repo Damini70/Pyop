@@ -36,7 +36,7 @@ export default function Step2Form({
             Location
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             onChange={(e) => updateUserData("location", e.target.value)}
             value={userData.location}
           >
@@ -59,7 +59,7 @@ export default function Step2Form({
             Music
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             onChange={(e) => updateUserData("music", e.target.value)}
             value={userData.music}
           >
@@ -86,7 +86,7 @@ export default function Step2Form({
           <select
             id="decoration"
             name="decoration"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             onChange={(e) => updateUserData("decoration", e.target.value)}
             value={userData.decoration}
           >
@@ -111,7 +111,7 @@ export default function Step2Form({
           <select
             id="invitationType"
             name="invitationType"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             onChange={(e) => updateUserData("invitationDesign", e.target.value)}
             value={userData.invitationDesign}
           >
@@ -135,7 +135,7 @@ export default function Step2Form({
           <select
             id="catering"
             name="deliveryMethod"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             onChange={(e) => updateUserData("catering", e.target.value)}
             value={userData.catering}
           >
@@ -176,7 +176,7 @@ export default function Step2Form({
             <input
               type="checkbox"
               id="photography"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded !text-black"
               onChange={(e) =>
                 updateUserData(
                   "photography",

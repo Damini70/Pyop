@@ -44,6 +44,8 @@ export default function StepperForm({ steps }) {
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+    }else{
+      navigate(-1)
     }
   };
 
@@ -174,32 +176,31 @@ export default function StepperForm({ steps }) {
 
       {/* Navigation Buttons */}
       <div className="flex justify-between gap-4">
-        <Button
-          variant="outlined"
+        <button
           onClick={prevStep}
-          disabled={currentStep === 1}
+          // disabled={currentStep === 1}
           className="w-24 cursor-pointer disabled:cursor-not-allowed"
         >
           Previous
-        </Button>
+        </button>
 
         <div className="">
           {currentStep < steps.length ? (
-            <Button
+            <button
               onClick={nextStep}
               disabled={currentStep === 1 ? !isStep1Valid : !isStep2Valid}
               className="w-24 cursor-pointer disabled:cursor-not-allowed"
             >
               Next
-            </Button>
+            </button>
           ) : (
-            <Button
+            <button
               onClick={handleSubmit}
               disabled={!isStep1Valid || !isStep2Valid}
-              className="bg-green-600 hover:bg-green-700 text-white cursor-pointer disabled:cursor-not-allowed"
+              className="bg-green-600 hover:bg-green-700 text-white cursor-pointer disabled:cursor-not-allowed px-3"
             >
               Submit
-            </Button>
+            </button>
           )}
         </div>
       </div>

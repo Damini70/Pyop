@@ -43,8 +43,7 @@ import { FaHome, FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import { setProfile } from "../../../../redux/actions";
 import { useDispatch } from "react-redux";
 
-const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const location = useLocation(); // To get the current URL for highlighting
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -64,8 +63,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className={`customer-sidebar ${isCollapsed ? "collapsed" : ""}`}>
-      <button className="toggle-btn" onClick={toggleSidebar}>
+    <div className={`customer-sidebar w-auto`}>
+      <button className="toggle-btn " onClick={toggleSidebar}>
         {isCollapsed ? ">" : "<"}
       </button>
       <div className="content">
@@ -74,11 +73,11 @@ const Sidebar = () => {
           {links.map((link) => (
             <li
               key={link.path}
-              className={location.pathname === link.path ? "active" : ""}
+              className={location.pathname === link.path ? "active " : ""}
             >
-              <Link to={link.path}>
+              <Link to={link.path} className="flex">
                 {link.icon}
-                {!isCollapsed && <span>{link.label}</span>}
+                {!isCollapsed && <span className="ml-2">{link.label}</span>}
               </Link>
             </li>
           ))}
@@ -88,10 +87,10 @@ const Sidebar = () => {
             <Link
               to="/customer/login"
               onClick={handleLogout}
-              className="logout-btn"
+              className="logout-btn flex"
             >
               <FaSignOutAlt />
-              {!isCollapsed && <span>Logout</span>}
+              {!isCollapsed && <span className="ml-2">Logout</span>}
             </Link>
           </li>
         </ul>

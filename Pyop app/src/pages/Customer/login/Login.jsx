@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="">
+    <div className="px-4">
       {/* <h2>Login</h2> */}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="pyop-button">
+        <button type="submit" className="pyop-button md:p-2">
           Login
         </button>
       </form>

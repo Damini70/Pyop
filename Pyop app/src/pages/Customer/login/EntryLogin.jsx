@@ -31,7 +31,7 @@ const EntryLogin = () => {
   //  },[])
   return (
     <>
-      <div className="customer-signup-wrapper d-flex justify-content-center align-items-center min-vh-100">
+      <div className="customer-signup-wrapper d-flex justify-content-center align-items-center min-vh-100 ">
         <div class="custom-shape-divider-bottom-1730197036">
           <svg
             data-name="Layer 1"
@@ -56,26 +56,36 @@ const EntryLogin = () => {
           </svg>
         </div>
         <div className="customer-signup-main-card card">
-          <div className="row g-0 h-100">
+          <div className="row g-0 h-100 ">
             <div className="col-12 col-md-5 d-flex justify-content-center customer-login-wrapper">
               <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row className="d-flex">
+                <Row className="d-flex pt-4">
                   {/* <Col sm={3}> */}
                   <Nav
                     variant="pills"
-                    className="flex-row justify-content-center pt-5 d-flex gap-2"
+                    className="flex-row justify-content-center pt-1 d-flex gap-2"
                   >
                     <Nav.Item>
-                      <Nav.Link eventKey="first">Login</Nav.Link>
+                      <Nav.Link
+                        eventKey="first"
+                        className="!p-[8px] !py-[4px] "
+                      >
+                        Login
+                      </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="second">Signup</Nav.Link>
+                      <Nav.Link
+                        eventKey="second"
+                        className="!p-[8px] !py-[4px]    "
+                      >
+                        Signup
+                      </Nav.Link>
                     </Nav.Item>
                   </Nav>
                   {/* </Col> */}
                   <Col>
                     <Tab.Content className="">
-                      <Tab.Pane eventKey="first" className="ps-4">
+                      <Tab.Pane eventKey="first" className="">
                         <Login />
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
@@ -93,10 +103,11 @@ const EntryLogin = () => {
               <Swiper
                 modules={[Autoplay]}
                 autoplay={{
-                  delay: 2500,
+                  delay: 3000,
                   disableOnInteraction: false,
                 }}
                 loop
+                speed={800} // <-- smooth transition (default is 300ms)
                 className="mySwiper"
               >
                 {imgArr.map((item, index) => {

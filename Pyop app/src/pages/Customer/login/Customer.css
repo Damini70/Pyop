@@ -8,7 +8,7 @@
   }
   
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
   }
   
   .form-group label {
@@ -18,18 +18,23 @@
   
   .form-group input {
     width: 100%;
-    padding: 8px;
+    padding: 3px;
     border-radius: 5px;
     border: 1px solid #ddd;
   }
   
   button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    margin-top: 1rem;
+    padding: 3px;
+    background-color: #05153f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     border: none;
     border-radius: 5px;
+    @apply hover:bg-primary-800
   }
   .login-container {
     max-width: 400px;
@@ -42,10 +47,10 @@
   .customer-signup-wrapper{
     height: 100vh;
     width: 100%;
-    background: rgb(2,0,36);
-    background-image: linear-gradient(to right top, #836bd1, #9070d5, #9d75da, #a97ade, #b57fe2, #b57de5, #b57ce8, #b57aeb, #a672ef, #956bf2, #7f64f7, #635ffb);  }
+    background: rgb(2,0,36);}
+    /* background-image: linear-gradient(to right top, #836bd1, #9070d5, #9d75da, #a97ade, #b57fe2, #b57de5, #b57ce8, #b57aeb, #a672ef, #956bf2, #7f64f7, #635ffb);  } */
   .customer-signup-main-card{
-    height: 80%;
+    height: 100%;
     width: 75%;
     /* background-color: ; */
   }
@@ -117,7 +122,7 @@
 
 .customer-login-wrapper div div div a{
   background-color: white !important;
-  color: #a09dff;
+  color: #05153f;
 
   &:hover{
     box-shadow: rgba(219, 175, 255, 0.12) 0px 1px 3px, rgba(146, 135, 227, 0.24) 0px 1px 2px;
@@ -125,8 +130,8 @@
     color:#a09dff ;
   }
   &.active{
-    background-color: white !important;
-    color: #a09dff !important;
+    background-color: #05153f !important;
+    color: white !important;
     transition:all .3s ease-in-out;
     box-shadow: rgba(219, 175, 255, 0.12) 0px 1px 3px, rgba(146, 135, 227, 0.24) 0px 1px 2px;
     border-radius: 15px;

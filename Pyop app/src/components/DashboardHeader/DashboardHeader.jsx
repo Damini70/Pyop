@@ -41,13 +41,13 @@ const DashboardHeader = ({ title, isBusiness }) => {
     <div className="d-flex flex-column p-3">
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <span className="dashboard-header-title">{title}</span>
+          <span className="dashboard-header-title !text-primary">{title}</span>
         </div>
         <div className="flex justify-content-end cursor-pointer m-1">
           <img
             src={proImg}
             alt="profile"
-            onClick={() => navigate("/business/profile")}
+            // onClick={() => navigate("/business/profile")}
             style={{ width: "3rem", borderRadius: "3rem", cursor: "pointer" }}
           />
         </div>

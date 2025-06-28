@@ -205,7 +205,7 @@ export default function Step1Form({ userData, updateUserData }) {
             Event Type
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             value={userData.eventType}
             onChange={(e) => updateUserData("eventType", e.target.value)}
           >
@@ -225,7 +225,7 @@ export default function Step1Form({ userData, updateUserData }) {
               Specific Event
             </label>
             <select
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
               value={userData.eventName}
               onChange={(e) => updateUserData("eventName", e.target.value)}
             >
@@ -249,7 +249,7 @@ export default function Step1Form({ userData, updateUserData }) {
           <input
             type="number"
             min="1"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 !text-black"
             value={userData.no_of_guests}
             onChange={(e) => {
               const value = e.target.value;
@@ -271,7 +271,7 @@ export default function Step1Form({ userData, updateUserData }) {
             Venue Details
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white !text-black"
             value={userData.venue}
             onChange={(e) => updateUserData("venue", e.target.value)}
           >

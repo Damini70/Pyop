@@ -38,7 +38,7 @@ const Routings = () => {
         <Route path="/business/signup" element={<EntryVendor />} />
         <Route path="/business/dashboard" element={BusinessProtectedRoute(<Dashboard />)} />
         <Route path="/business/profile" element={BusinessProtectedRoute(<VendorProfile />)} />
-        <Route path="/business/listings" element={BusinessProtectedRoute(<VendorLisitngs/>)} />
+        {/* <Route path="/business/listings" element={BusinessProtectedRoute(<VendorLisitngs/>)} /> */}
         <Route path="/customer/kart" element={CustomerProtectedRoute(<Kart/>)} />
         <Route path="/customer/custom-party" element={<ProtectedRoute requiredRole="customer"><CustomParty/></ProtectedRoute>}/>
         <Route path="/customer/pyop-party" element={<ProtectedRoute requiredRole="customer"><PyopParty/></ProtectedRoute>}/>

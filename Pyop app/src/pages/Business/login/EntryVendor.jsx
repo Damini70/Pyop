@@ -25,11 +25,10 @@ const EntryVendor = () => {
   const [activeTab, setActiveTab] = useState("login"); // Default to 'login' tab
   const [key, setKey] = useState("first");
 
-//    useEffect(()=>{
-//   localStorage.clear()
+  //    useEffect(()=>{
+  //   localStorage.clear()
 
-//  },[])
-
+  //  },[])
 
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -40,8 +39,8 @@ const EntryVendor = () => {
       <div className="card vendor-entry-card">
         <div className="row g-0 h-100">
           <div className="col-12 col-md-5 h-100 d-flex justify-content-center align-items-center">
-            <div className="p-5 h-100">
-              <div className="vendor-singup-wrapper flex ">
+            <div className=" h-100">
+              <div className="vendor-singup-wrapper pt-2">
                 <Tab.Container
                   id="left-tabs-example"
                   defaultActiveKey={key}
@@ -60,7 +59,12 @@ const EntryVendor = () => {
                             key === "first" ? "selected" : ""
                           } `}
                         >
-                          <Nav.Link eventKey="first">Login</Nav.Link>
+                          <Nav.Link
+                            eventKey="first"
+                            className="!p-[8px] !py-[4px] mr-3"
+                          >
+                            Login
+                          </Nav.Link>
                         </div>{" "}
                       </Nav.Item>
                       <Nav.Item>
@@ -69,12 +73,17 @@ const EntryVendor = () => {
                             key === "second" ? "selected" : ""
                           } `}
                         >
-                          <Nav.Link eventKey="second">Signup</Nav.Link>
+                          <Nav.Link
+                            eventKey="second"
+                            className="!p-[8px] !py-[4px]    "
+                          >
+                            Signup
+                          </Nav.Link>
                         </div>
                       </Nav.Item>
                     </Nav>
                     <Col>
-                      <Tab.Content className="bg-primary h-100">
+                      <Tab.Content className=" h-100">
                         {key === "first" ? (
                           <Tab.Pane
                             eventKey="first"
@@ -87,8 +96,7 @@ const EntryVendor = () => {
                             eventKey="second"
                             className="d-flex justify-content-center"
                           >
-                          
-                            <VendorSignup setKey={setKey}/>{" "}
+                            <VendorSignup setKey={setKey} />{" "}
                           </Tab.Pane>
                         )}
                       </Tab.Content>
@@ -104,10 +112,11 @@ const EntryVendor = () => {
               <Swiper
                 modules={[Autoplay]}
                 autoplay={{
-                  delay: 2500,
+                  delay: 3000,
                   disableOnInteraction: false,
                 }}
                 loop
+                speed={800}
                 className="mySwiper"
               >
                 {imgArr.map((item, index) => {

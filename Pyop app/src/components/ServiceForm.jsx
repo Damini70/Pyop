@@ -555,17 +555,20 @@ export default function ServiceForm({
 
           {openEditServiceListing ? (
             <div className="flex justify-between">
-              <Button onClick={() => setOpenEditServiceListing(false)}>
+              <button
+                onClick={() => setOpenEditServiceListing(false)}
+                className="pyop-button"
+              >
                 Cancel
-              </Button>
-              <Button type="submit" className="pyop-button">
+              </button>
+              <button type="submit" className="pyop-button">
                 Submit
-              </Button>
+              </button>
             </div>
           ) : (
-            <Button type="submit" className="pyop-button">
+            <button type="submit" className="pyop-button">
               Submit
-            </Button>
+            </button>
           )}
         </form>
       </div>

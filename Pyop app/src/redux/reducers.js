@@ -10,7 +10,7 @@ const initialState = {
     : "",
   kartItem: [],
   password:"",
-  profileImg:'',
+  profileImg:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWJR309C296hRO0kyhmBvOdn3IUNoQ0bJuls-bhARbnOgc8OKFcg&s=10&ec=72940544',
 };
 const initialData={
    filterData:{},

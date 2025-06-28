@@ -121,14 +121,14 @@ const VendorLisitngs = () => {
           <Button type="submit">Subscribe</Button>
         </DialogActions> */}
           </Dialog>
-          <div className="d-flex w-100">
-            <VendorSidebar />
-            <div className="col-10 ps-4">
-              <DashboardHeader title={"Listings"} />
-              <div className="row g-2 mt-2 ">
+          <div className="d-flex w-[100%] flex items-center justify-center">
+            {/* <VendorSidebar /> */}
+            <div className="col-10">
+              {/* <DashboardHeader title={"Listings"} /> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 g-2 mt-2 ">
                 {listings.map((listing) => (
-                  <div className="col-4">
-                    <div className="h-[260px] flex flex-col justify-between p-4 shadow rounded-lg bg-white overflow-hidden">
+                  <div className="w-[100%]">
+                    <div className="h-[260px] flex flex-col justify-between p-4 shadow rounded-lg bg-white overflow-hidden my-3 mx-3">
                       {/* Header */}
                       <div className="flex justify-between items-start mb-2">
                         <h5 className="font-semibold text-lg line-clamp-2">

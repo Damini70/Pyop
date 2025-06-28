@@ -162,7 +162,7 @@ const Home = () => {
                     {heroCardArr.map((item, index) => {
                       return (
                         <div
-                          className=" bg-dark border-0 rounded-4 p-2 hover:cursor-pointer shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                          className=" !bg-primary border-0 rounded-4 p-2 hover:cursor-pointer shadow-md transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                           onClick={() => handleClickHeroCard(item.path)}
                         >
                           <div className="card card-hero-main-title-wrapper py-2 text-theme px-2 fs-4 fw-light">

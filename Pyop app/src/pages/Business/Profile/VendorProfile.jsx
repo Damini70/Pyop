@@ -19,50 +19,51 @@ import { setProfile } from "../../../redux/actions";
 const VendorProfile = () => {
   const userId = useSelector((state) => state.global.userId);
   const password = useSelector((state) => state.global.password);
+  const profileImg = useSelector((state) => state.global.profileImg);
+  const dispatch = useDispatch();
+
+  /* -------------- NEW: sidebar toggle -------------- */
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  /* -------------- existing state -------------- */
   const [profile, setProfile] = useState(null);
   const [openEdit, setOpenEdit] = useState(false);
   const [showDialog, setShowDialog] = useState(true);
   const [openPasswordEdit, setOpenPasswordEdit] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
   const [selectedFile, setSelectedFile] = useState("");
-  const profileImg = useSelector((state) => state.global.profileImg);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
+  /* -------------- react‑hook‑form -------------- */
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
 
+  /* -------------- handlers (UNCHANGED) -------------- */
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    if (file) {
-      setSelectedFile(file);
-    }
+    if (file) setSelectedFile(file);
   };
 
   const onSubmit = async (data) => {
     try {
-      setLoading(true); // Start loading
-
+      setLoading(true);
       const payload = {
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
       };
-
       const res = await makeRequest(
         "post",
         `/vendor/update-password?vendorId=${userId}`,
         payload
       );
-
       if (res.status) {
-        setOpenPasswordEdit(false);
         toast.success("Password Updated Successfully");
+        setOpenPasswordEdit(false);
         reset();
       } else {
         toast.error(
@@ -74,7 +75,6 @@ const VendorProfile = () => {
       toast.error("An unexpected error occurred. Please try again later.");
     } finally {
       setLoading(false);
-      setOpenPasswordEdit(false);
     }
   };
 
@@ -85,34 +85,23 @@ const VendorProfile = () => {
         "get",
         `/vendor/vendor-profilepic?vendorId=${userId}`
       );
-
-      if (res?.status) {
-        setLoading(false);
-        toast.success("Profile Pic Successfully Changed");
-      } else {
-        setLoading(false);
-        console.error("Failed to fetch profile picture:", res);
-      }
+      if (res?.status) toast.success("Profile Pic Successfully Changed");
     } catch (error) {
-      setLoading(false);
       console.error("Error fetching profile picture:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSave = async () => {
     try {
-      // Create a FormData object and append the file
       const formData = new FormData();
       formData.append("profile_pic", selectedFile);
-      console.log({ formData });
-
-      // Make the API request
       const res = await makeRequest(
         "post",
         `/vendor/vendor-profilepic?vendorId=${userId}`,
         formData
       );
-
       if (res.status) {
         toast.success("Profile Picture updated successfully");
         getImage();
@@ -121,38 +110,31 @@ const VendorProfile = () => {
       console.error("Error uploading profile picture:", error);
       toast.error("Failed to change profile picture");
     }
-
-    // Close the file selection modal
     setShowFiles(false);
   };
+
   const getProfile = async () => {
     const apiData = await makeRequest(
       "get",
       `vendor/vendor-profile?vendorId=${userId}`
     );
-    console.log(apiData);
-    if (apiData.status) {
-      console.log(apiData);
-      setProfile(apiData.data);
-    } else {
-      console.log(apiData);
-    }
+    if (apiData.status) setProfile(apiData.data);
   };
+
   useEffect(() => {
     getProfile();
   }, [loading]);
 
-  const handleProfileEdit = () => {
-    setOpenEdit(true);
-  };
+  const handleProfileEdit = () => setOpenEdit(true);
 
+  /* ------------------- RENDER ------------------- */
   return (
     <>
-      {" "}
       {loading ? (
         <CircularProgress />
       ) : (
         <>
+          {/* ---- Edit profile dialog (unchanged) ---- */}
           <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
             <DialogTitle>Edit Your Profile</DialogTitle>
             <DialogContentText>
@@ -166,19 +148,23 @@ const VendorProfile = () => {
               </div>
             </DialogContentText>
           </Dialog>
+
+          {/* ---- Password dialog (unchanged) ---- */}
           <Dialog
             open={openPasswordEdit}
             onClose={() => setOpenPasswordEdit(false)}
           >
             <DialogContent>
-              <div class="flex items-center justify-center">
-                <div class="text-white">
-                  <h2 class="text-xl font-semibold mb-4">Set New Password</h2>
-                  <form class="space-y-4 " onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex items-center justify-center">
+                <div className="text-white">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Set New Password
+                  </h2>
+                  <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <input
                       type="password"
                       placeholder="Current Password"
-                      class="w-full  text-white rounded-md p-2 focus:outline-none"
+                      className="w-full text-white rounded-md p-2 focus:outline-none"
                       {...register("currentPassword", { required: true })}
                     />
                     {errors.currentPassword && (
@@ -187,14 +173,14 @@ const VendorProfile = () => {
                     <input
                       type="password"
                       placeholder="New Password"
-                      class="w-full text-white rounded-md p-2 focus:outline-none"
+                      className="w-full text-white rounded-md p-2 focus:outline-none"
                       {...register("newPassword", { required: true })}
                     />
                     {errors.newPassword && <span>This field is required</span>}
                     <input
                       type="password"
                       placeholder="Confirm Password"
-                      class="w-full text-white rounded-md p-2 focus:outline-none"
+                      className="w-full text-white rounded-md p-2 focus:outline-none"
                       {...register("confirmPassword", { required: true })}
                     />
                     {errors.confirmPassword && (
@@ -211,13 +197,41 @@ const VendorProfile = () => {
               </div>
             </DialogContent>
           </Dialog>
-          <div className="d-flex">
-            <VendorSidebar />
-            <div className="col-10">
+
+          {/* ---- Page layout ---- */}
+          <div className="d-flex flex-column flex-md-row">
+            {/* MOBILE TOGGLE BUTTON */}
+            <div className="d-md-none p-3 shadow-sm">
+              <button className="" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                {sidebarOpen ? "Close Menu" : "Open Menu"}
+              </button>
+            </div>
+
+            {/* SIDEBAR (toggle visibility on mobile) */}
+            <div
+              className={`${
+                sidebarOpen ? "block" : "hidden"
+              } md:block w-full bg-white shadow md:shadow-none z-50 h-screen ${
+                isCollapsed ? "md:w-[5%]" : "md:w-[10%]"
+              }`}
+            >
+              <VendorSidebar
+                isCollapsed={isCollapsed}
+                setIsCollapsed={setIsCollapsed}
+              />
+            </div>
+
+            {/* MAIN CONTENT */}
+             <div
+          className={`flex-1 ${
+            isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
+          }`}
+        >
               <DashboardHeader title={"Profile"} />
-              <div className="card mt-2 mx-3 p-3 ">
-                {" "}
-                <div className="flex justify-between">
+
+              <div className="card mt-2 mx-3 p-3 !ml-11">
+             <div className="flex flex-col md:flex-row md:justify-end lg:flex-row">
+                  {/* Left column: avatar + edit picture */}
                   <div>
                     <img
                       src={profileImg}
@@ -231,7 +245,8 @@ const VendorProfile = () => {
                       <SquarePen />
                       <span className="ml-2">Edit Profile</span>
                     </Button>
-                    {/* Vertically Centered Modal */}
+
+                    {/* Bootstrap modal for uploading picture (unchanged) */}
                     {showFiles && (
                       <div
                         className="modal fade show d-block"
@@ -259,12 +274,12 @@ const VendorProfile = () => {
                               </p>
                               <input
                                 type="file"
-                                onChange={(e) => handleFileChange(e)}
+                                onChange={handleFileChange}
                                 className="form-control"
                                 accept="image/*"
                               />
                             </div>
-                            <div className=" flex-d modal-footer">
+                            <div className="modal-footer">
                               <button
                                 type="button"
                                 className="btn btn-secondary"
@@ -275,7 +290,7 @@ const VendorProfile = () => {
                               <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => handleSave()}
+                                onClick={handleSave}
                               >
                                 Save Changes
                               </button>
@@ -285,6 +300,8 @@ const VendorProfile = () => {
                       </div>
                     )}
                   </div>
+
+                  {/* Right column: profile details */}
                   <div className="flex justify-between mx-3">
                     <div>
                       {profile && (
@@ -320,9 +337,8 @@ const VendorProfile = () => {
                               profile.service_locations.map(
                                 (item) => item.label
                               )}
-                            <div className="">
-                              {/* <input type="password" value={password}/>{" "} */}
-                              <Button
+                            <div>
+                              {/* <Button
                                 onClick={() => setOpenPasswordEdit(true)}
                                 className=""
                                 style={{
@@ -331,7 +347,7 @@ const VendorProfile = () => {
                                 }}
                               >
                                 Set New Password
-                              </Button>
+                              </Button> */}
                             </div>
                           </div>
                         </>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaTachometerAlt, FaList, FaUser } from "react-icons/fa"; // Import icons
+import { FaTachometerAlt, FaList, FaUser, FaSignOutAlt } from "react-icons/fa"; // Import icons
 import logo from "../../Images/holidays-party.png";
 import "./VendorSidebar.css"; // Import CSS for styling
 import pyopLogo from "../../Images/pyoplogo.jpg";
@@ -8,8 +8,7 @@ import { setProfile, setUserId } from "../../redux/actions";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-const VendorSidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false); // Track collapsed state
+const VendorSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,11 +38,10 @@ const VendorSidebar = () => {
             className="sidebar-logo rounded rounded-5"
           />
         )}
-        <button className="btn ms-auto" onClick={toggleSidebar}>
+        <button className="btn ms-auto !text-white" onClick={toggleSidebar}>
           {isCollapsed ? "→" : "←"}
         </button>
       </div>
-      <hr></hr>
       {/* Menu Items */}
       <ul className="menu-list list-unstyled p-3">
         <li>
@@ -55,7 +53,7 @@ const VendorSidebar = () => {
             {!isCollapsed && <span className="ms-2">Dashboard</span>}
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to="/business/listings"
             className="menu-item d-flex align-items-center"
@@ -63,8 +61,8 @@ const VendorSidebar = () => {
             <FaList className="menu-icon" />
             {!isCollapsed && <span className="ms-2">My Listings</span>}
           </Link>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <Link
             to="/business/profile"
             className="menu-item d-flex align-items-center"
@@ -72,14 +70,14 @@ const VendorSidebar = () => {
             <FaUser className="menu-icon" />
             {!isCollapsed && <span className="ms-2">Profile</span>}
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to="/business/signup"
             className="menu-item d-flex align-items-center"
             onClick={() => handleLogout()}
           >
-            <FaUser className="menu-icon" />
+            <FaSignOutAlt />
             {!isCollapsed && <span className="ms-2">Logout</span>}
           </Link>
         </li>

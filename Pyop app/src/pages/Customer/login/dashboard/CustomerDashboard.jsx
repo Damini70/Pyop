@@ -17,6 +17,7 @@ const CustomerDashboard = () => {
   const state = useSelector((state) => state.stableData.filterData);
   const [localFilterData, setLocalFilterData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -86,27 +87,27 @@ const CustomerDashboard = () => {
   return (
     <div className="d-flex flex-column flex-md-row w-100 min-vh-100">
       {/* Mobile Sidebar Toggle Button */}
-      <div className="d-md-none p-3 bg-white shadow-sm w-100">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="btn btn-primary btn-sm"
-        >
+      <div className="d-md-none p-3 bg-white shadow-sm w-[100%]">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="button">
           {sidebarOpen ? "Close Menu" : "Open Menu"}
         </button>
       </div>
 
       {/* Sidebar */}
       <div
-        className={`${
-          sidebarOpen ? "d-block" : "d-none"
-        } d-md-block bg-white border-end vh-100`}
-        style={{ width: "250px" }}
+        className={`${sidebarOpen ? "d-block" : "d-none"} d-md-block vh-100 ${
+          isCollapsed ? "md:w-[5%]" : "md:w-[20%]"
+        }`}
       >
-        <Sidebar />
+        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       </div>
 
       {/* Main Content */}
-      <div className="w-100 ms-md-3 p-1">
+      <div
+        className={`w-[100%] px-6 lg:pl-0  ${
+          isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
+        }`}
+      >
         <DashboardHeader title={"Dashboard"} isCustomer={true} />
         <div className="row g-3">
           {allServices?.map((service) => {

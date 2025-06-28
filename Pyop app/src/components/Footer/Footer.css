@@ -1,6 +1,6 @@
 .Footer-Wrapper{
     /* height: 50vh; */
-    background-color: #1f1f1f;
+    @apply bg-primary
 }
 .text-theme{
     color: #e1f196;

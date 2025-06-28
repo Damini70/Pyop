@@ -9,15 +9,14 @@ import { useAuth } from "../../../routes/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { login } = useAuth(); 
-
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -38,21 +37,21 @@ const Login = () => {
     const apiData = await loginVendor(formData.email, formData.password);
     if (apiData.status) {
       localStorage.clear();
-      toast.success("Login Successfully")
-      dispatch(setPassword(formData.password))
+      toast.success("Login Successfully");
+      dispatch(setPassword(formData.password));
       localStorage.setItem("token", apiData.token);
-     dispatch( setUserId(apiData.data.id))
-     dispatch(setProfile(apiData.data))
+      dispatch(setUserId(apiData.data.id));
+      dispatch(setProfile(apiData.data));
       localStorage.setItem("business", JSON.stringify(apiData.data));
-        login("business");
-      navigate("/business/dashboard",{state:apiData?.data?.id});
+      login("business");
+      navigate("/business/dashboard", { state: apiData?.data?.id });
     } else {
       toast.error(apiData.message);
     }
   };
 
   return (
-    <div className="">
+    <div className="!w-[100%] px-3 pt-5">
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -79,7 +78,7 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="pyop-button">
+        <button type="submit" className="pyop-button p-2">
           Login
         </button>
       </form>

@@ -101,7 +101,7 @@ const Signup = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label className="pyop-input-label">Address</label>
           <input
             className="pyop-input"
@@ -111,9 +111,9 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-        </div>
+        </div> */}
 
-        <button type="submit" className="pyop-button">
+        <button type="submit" className="pyop-button md:p-2 ">
           Signup
         </button>
       </form>

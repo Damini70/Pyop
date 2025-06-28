@@ -232,7 +232,9 @@ const VendorSignup = ({
   console.log(selectedSubCategory);
   return (
     <div
-      className={`${!showDialog ? "vendor-signup-wrapper" : ""} w-75 h-[345px] overflow-auto`}
+      className={`${
+        !showDialog ? "vendor-signup-wrapper" : ""
+      } w-[100%]`}
     >
       <form onSubmit={handleSubmit}>
         <div className="form-group ">

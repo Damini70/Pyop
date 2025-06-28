@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeRequest } from "../../../services/generalFunctions";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const events = [
   {
@@ -133,6 +134,7 @@ const PyopParty = () => {
   const [guest, setGuest] = useState([]);
   const [catering, setCatering] = useState(false);
   const [music, setMusic] = useState(false);
+  const navigate = useNavigate();
 
   const updatedEvents = events.map((event) => {
     const eventTypeKey = event.eventType;
@@ -339,12 +341,13 @@ const PyopParty = () => {
             </select>
           </div>
 
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Submit
-          </button>
+          <div className="flex justify-between gap-3">
+            {" "}
+            <button onClick={() => navigate(-1)}>Back</button>
+            <button type="submit" className=" text-white px-4 py-2 rounded ">
+              Submit
+            </button>
+          </div>
         </form>
       )}
     </>

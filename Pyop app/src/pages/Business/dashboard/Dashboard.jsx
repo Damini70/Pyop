@@ -8,6 +8,15 @@ import { useSelector } from "react-redux";
 import DashboardHeader from "../../../components/DashboardHeader/DashboardHeader";
 import { useLocation } from "react-router";
 import ServiceForm from "../../../components/ServiceForm";
+import VendorLisitngs from "../lisitngs/VendorLisitngs";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Dashboard = () => {
   const userId = useSelector((state) => state.global.userId);
@@ -19,6 +28,8 @@ const Dashboard = () => {
   const [userServiceTypeList, setUserServiceTypeList] = useState([]);
   const [userServiceLocations, setUserServiceLocations] = useState([]);
   const [userSubCategoryList, setUserSubCategoryList] = useState([]);
+  const [openService, setOpenService] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [serviceData, setServiceData] = useState({
     service_name: "",
@@ -94,6 +105,7 @@ const Dashboard = () => {
         },
         vendor_id: userId,
       });
+      setOpenService(false)
     } else {
       toast.error(apiData.message);
     }
@@ -116,46 +128,83 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
-      {/* Toggle Sidebar Button */}
-      <div className="md:hidden p-4 bg-white shadow">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="text-sm px-4 py-2 bg-blue-600 text-white rounded-md"
+    <>
+      <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
+        {/* Toggle Sidebar Button */}
+        <div className="md:hidden p-4 shadow">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="text-sm px-4 text-white rounded-md"
+          >
+            {sidebarOpen ? "Close Menu" : "Open Menu"}
+          </button>
+        </div>
+
+        {/* Sidebar */}
+        <div
+          className={`${
+            sidebarOpen ? "block" : "hidden"
+          } md:block w-full bg-white shadow md:shadow-none z-50 h-screen ${
+            isCollapsed ? "md:w-[5%]" : "md:w-[10%]"
+          }`}
         >
-          {sidebarOpen ? "Close Menu" : "Open Menu"}
-        </button>
-      </div>
+          <VendorSidebar
+            isCollapsed={isCollapsed}
+            setIsCollapsed={setIsCollapsed}
+          />
+        </div>
 
-      {/* Sidebar */}
-      <div
-        className={`${
-          sidebarOpen ? "block" : "hidden"
-        } md:block w-full md:w-[15rem] bg-white shadow md:shadow-none z-50 h-screen`}
-      >
-        <VendorSidebar />
-      </div>
+        {/* Main Content */}
+        <div
+          className={`flex-1  ${
+            isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
+          }`}
+        >
+          <div className="pl-9">
+            <DashboardHeader title="Dashboard" isBusiness={true} />{" "}
+          </div>
+          <VendorLisitngs />
+          <div className="w-[100%] flex justify-center  my-8">
+            <button
+              className=" px-6 py-2 rounded-md shadow transition mb-5 ml-4 md:ml-[5rem]"
+              onClick={() => setOpenService(!openService)}
+            >
+              {openService ? "Close" : "Add"} Service
+            </button>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column Placeholder */}
 
-      {/* Main Content */}
-      <div className="flex-1">
-        <DashboardHeader title="Dashboard" isBusiness={true} />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Column Placeholder */}
-          <div className="hidden lg:block">{/* Optional content */}</div>
+            {/* Right Column - Service Form */}
+            <Dialog
+              open={openService}
+              onClose={() => setOpenService(false)}
+              maxWidth="md"
+              fullWidth
+            >
+              <DialogContent dividers>
+                <ServiceForm
+                  userId={userId}
+                  vendor_id={vendor_id}
+                  userCategories={userCategories}
+                  userSubCategoryList={userSubCategoryList}
+                  userServiceTypeList={userServiceTypeList}
+                />
+              </DialogContent>
 
-          {/* Right Column - Service Form */}
-          <div className="">
-            <ServiceForm
-              userId={userId}
-              vendor_id={vendor_id}
-              userCategories={userCategories}
-              userSubCategoryList={userSubCategoryList}
-              userServiceTypeList={userServiceTypeList}
-            />
+              <DialogActions>
+                <button
+                  className="bg-red-800 hover:bg-red-500 text-white px-4 py-1 rounded"
+                  onClick={() => setOpenService(false)}
+                >
+                  Cancel
+                </button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

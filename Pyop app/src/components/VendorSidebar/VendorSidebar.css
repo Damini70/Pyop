@@ -1,15 +1,21 @@
 .vendorSidebar {
-    width: 250px;
-    transition: width 0.3s ease;
-    min-height: 100vh;
+     position: fixed;          /* pin to the viewport */
+  top: 0;
+  left: 0;
+  @apply bg-primary;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+  transition: width 0.3s;
+  z-index: 1000;
   }
   
   .vendorSidebar.collapsed {
-    width: 80px;
+
   }
   
   .sidebar-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
   }
   
   .sidebar-logo {
@@ -46,10 +52,11 @@
   
   .bg-pyopSidebar{
     /* background-color: rgb(150, 144, 241); */
-    background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+    /* background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%); */
     }
     
   .toggle-btn{
     background-color: rgb(118, 109, 243);
-    color: black;
+    color: white !important;
+    padding: 1rem;
   }
