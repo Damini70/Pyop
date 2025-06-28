@@ -5,10 +5,10 @@ const { VendorService } = require("../models/vendor");
 const {Vendor}=require("../models/vendor")
 
 const handleUserSignup = async (req, res) => {
-  const { name, email, password, contact_number, address } = req.body;
+  const { name, email, password, contact_number} = req.body;
 
   // Validate input
-  if (!name || !email || !password || !contact_number || !address) {
+  if (!name || !email || !password || !contact_number ) {
     return res
       .status(400)
       .json({ message: "All fields are required", status: false });
@@ -35,7 +35,6 @@ const handleUserSignup = async (req, res) => {
       email,
       password: hashedPassword, // Store the hashed password
       contact_number,
-      address,
     });
 
     return res.status(201).json({
@@ -99,7 +98,6 @@ const handleUserLogin = async (req, res) => {
         name: user.name,
         email: user.email,
         contact_number: user.contact_number,
-        address: user.address,
       },
     });
   } catch (err) {

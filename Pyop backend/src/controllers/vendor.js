@@ -535,7 +535,25 @@ const handleBirthdayBanner=async(req,res)=>{
   }
 } 
   
-
+const handleWeddingBanner=async(req,res)=>{
+   try {
+    const weddingServices = await VendorService.find({ sub_category: "Wedding" }).populate('vendor_id');
+    if(!weddingServices){
+      res.status(400).json({
+        status:false,
+        message:"Not found"
+      })
+    }
+    res.status(200).json({
+      status:true,
+      message:"data fetched",
+      weddingServices
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+} 
 
 
 
@@ -866,5 +884,6 @@ module.exports = {
   handleGetVendorCategories,
   handleUpdateVendorPassword,
   handleUpdateServicesQuantity,
-  handleBirthdayBanner
+  handleBirthdayBanner,
+  handleWeddingBanner
 };

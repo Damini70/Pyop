@@ -128,7 +128,7 @@ const signupUserValidatorSChema = Joi.object({
     "string.empty": "Contact number is required",
     "string.length": "Contact number must be 10 digits",
   }),
-  address: Joi.string().min(2).max(50).required().messages({
+  address: Joi.string().min(2).max(50).messages({
     "string.base": "Address must be a type of string",
     "string.empty": "Address is required",
     "string.min": "Address must be at least 2 characters",

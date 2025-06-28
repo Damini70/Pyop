@@ -14,7 +14,7 @@ const filterRoutes=require("./routes/filter")
 
 const PORT = 4000;
 
-connectDb("mongodb://127.0.0.1:27017/pyop-db").then(() => {
+connectDb(process.env.MONGO_URI).then(() => {
   console.log("pyop-database connected");
 });
 app.use(cors()); 

@@ -17,7 +17,8 @@ const {
   handleDeleteServiceImage,
   handleUpdateServicesQuantity,
   handleGetVendorLocations,
-  handleBirthdayBanner
+  handleBirthdayBanner,
+  handleWeddingBanner
 } = require("../controllers/vendor");
 const {
   validateVendorSignup,
@@ -65,6 +66,7 @@ router.delete("/delete-vendor-listing", authenticateToken,handleDeleteVendorList
 
 // Banner apis
 router.get("/service/birthday",handleBirthdayBanner);
+router.get("/service/wedding",handleWeddingBanner)
 
 
 

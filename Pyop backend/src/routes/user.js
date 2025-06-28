@@ -12,7 +12,7 @@ const {
 const { validateUserSignup, validateLogin } = require("../utils/validators");
 const { authenticateToken } = require("../middlewares/auth");
 
-router.post("/signup", validateUserSignup, handleUserSignup);
+router.post("/signup", handleUserSignup);
 router.post("/login", validateLogin, handleUserLogin);
 router.get("/all-services",authenticateToken, getAllVendorServices);
 //Not tested==================================================================================
