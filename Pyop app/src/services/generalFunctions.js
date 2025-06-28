@@ -1,16 +1,16 @@
 import axios from "axios";
 // const baseURL =  "http://localhost:4000"
-const baseURL="https://pyop-backend-1.onrender.com"
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 // Create an axios instance
 const api = axios.create({
   baseURL: baseURL,
 });
 
-// Add a request interceptor to include headers
+
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // Replace with your method of getting the token
+    const token = localStorage.getItem("token"); 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -59,13 +59,13 @@ export const signupVendor = async (vendorData) => {
 export const signupUser = async (vendorData) => {
   try {
     const response = await api.post(`user/signup`, vendorData);
-    return response.data; // Return the response data
+    return response.data;
   } catch (error) {
     console.error("Error signing up User:", error);
-    return error.response.data; // Return error response data
+    return error.response.data; 
   }
 };
-// Create a function for making requests
+
 export const makeRequest = async (method, endpoint, payload = null) => {
   try {
     const response = await api({
@@ -74,9 +74,8 @@ export const makeRequest = async (method, endpoint, payload = null) => {
       data: payload,
     });
 
-    return response.data; // Return only the data
+    return response.data;
   } catch (error) {
-    // throw error; // Rethrow the error to handle it in the component
     return error.response.data;
   }
 };
