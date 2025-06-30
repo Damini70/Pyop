@@ -8,6 +8,7 @@ import DashboardHeader from "../../../../components/DashboardHeader/DashboardHea
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
+import CircularProgress from "@mui/material/CircularProgress"; // NEW
 
 const CustomerDashboard = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const CustomerDashboard = () => {
   const [localFilterData, setLocalFilterData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [loading, setLoading] = useState(true); // NEW
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -36,6 +38,7 @@ const CustomerDashboard = () => {
   useEffect(() => {
     const getAllServices = async () => {
       try {
+        setLoading(true); // NEW
         const queryParams = Object.entries(state)
           .filter(
             ([key, value]) => (value && value !== "false") || value === true
@@ -64,6 +67,8 @@ const CustomerDashboard = () => {
         }
       } catch (error) {
         toast.error(error);
+      } finally {
+        setLoading(false); // NEW
       }
     };
     getAllServices();
@@ -85,74 +90,95 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="d-flex flex-column flex-md-row w-100 min-vh-100">
-      {/* Mobile Sidebar Toggle Button */}
-      <div className="d-md-none p-3 bg-white shadow-sm w-[100%]">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="button">
-          {sidebarOpen ? "Close Menu" : "Open Menu"}
-        </button>
-      </div>
+    <>
+      {loading ? (
+        <div className="flex justify-center items-center w-full h-screen">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div className="d-flex flex-column flex-md-row w-100 min-vh-100">
+          {/* Mobile Sidebar Toggle Button */}
+          <div className="d-md-none p-3 bg-white shadow-sm w-[100%]">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="button"
+            >
+              {sidebarOpen ? "Close Menu" : "Open Menu"}
+            </button>
+          </div>
 
-      {/* Sidebar */}
-      <div
-        className={`${sidebarOpen ? "d-block" : "d-none"} d-md-block vh-100 ${
-          isCollapsed ? "md:w-[5%]" : "md:w-[20%]"
-        }`}
-      >
-        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-      </div>
+          {/* Sidebar */}
+          <div
+            className={`${
+              sidebarOpen ? "d-block" : "d-none"
+            } d-md-block vh-100 ${isCollapsed ? "md:w-[5%]" : "md:w-[20%]"}`}
+          >
+            <Sidebar
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
+          </div>
 
-      {/* Main Content */}
-      <div
-        className={`w-[100%] px-6 lg:pl-0  ${
-          isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
-        }`}
-      >
-        <DashboardHeader title={"Dashboard"} isCustomer={true} />
-        <div className="row g-3">
-          {allServices?.map((service) => {
-            return (
-              <div
-                key={service._id}
-                className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3"
-              >
-                <div className="card shadow-sm border p-2 my-2 w-100 d-flex flex-column justify-content-between">
-                  <div>
-                    <img
-                      className="w-100 rounded object-fit-cover"
-                      src={service.images[0]?.data}
-                      alt={service.service_name}
-                      style={{ height: "180px", objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className="mt-2 d-flex flex-column">
-                    <span className="card-key">
-                      <span className="fw-bold">{service.service_name}</span>
-                    </span>
-                    <span className="card-key">
-                      <span className="card-value">{service.sub_category}</span>
-                    </span>
-                    <span className="card-key">
-                      {" "}
-                      service type:{" "}
-                      <span className="card-value">{service.service_type}</span>
-                    </span>
-                    <span className="card-key">
-                      {" "}
-                      price: <span className="card-value">{service.price}</span>
-                    </span>
-                    <div className="d-flex justify-content-between">
-                      <span>Contact</span>
-                      <span>{service.vendor_id.contact_number}</span>
+          {/* Main Content */}
+          <div
+            className={`w-[100%] px-6 lg:pl-0  ${
+              isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
+            }`}
+          >
+            <DashboardHeader title={"Dashboard"} isCustomer={true} />
+            <div className="row g-3">
+              {allServices?.map((service) => {
+                return (
+                  <div
+                    key={service._id}
+                    className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3"
+                  >
+                    <div className="card shadow-sm border p-2 my-2 w-100 d-flex flex-column justify-content-between">
+                      <div>
+                        <img
+                          className="w-100 rounded object-fit-cover"
+                          src={service.images[0]?.data}
+                          alt={service.service_name}
+                          style={{ height: "180px", objectFit: "cover" }}
+                        />
+                      </div>
+                      <div className="mt-2 d-flex flex-column">
+                        <span className="card-key">
+                          <span className="fw-bold">
+                            {service.service_name}
+                          </span>
+                        </span>
+                        <span className="card-key">
+                          <span className="card-value">
+                            {service.sub_category}
+                          </span>
+                        </span>
+                        <span className="card-key">
+                          {" "}
+                          service type:{" "}
+                          <span className="card-value">
+                            {service.service_type}
+                          </span>
+                        </span>
+                        <span className="card-key">
+                          {" "}
+                          price:{" "}
+                          <span className="card-value">{service.price}</span>
+                        </span>
+                        <div className="d-flex justify-content-between">
+                          <span>Contact</span>
+                          <span>{service.vendor_id.contact_number}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

@@ -73,6 +73,7 @@ export default function ServiceForm({
   editListing,
   setEditListing,
   setLoading,
+  setOpenService,
 }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [openImageDelete, setOpenImageDelete] = useState(false);
@@ -215,6 +216,11 @@ export default function ServiceForm({
 
         if (apiData.status) {
           toast.success(apiData.message);
+          const serviceData = await makeRequest(
+                 "get",
+                 `vendor/vendor-listings?vendorId=${userId}`
+               );
+          if (setOpenService) setOpenService(false);
           reset();
           setPreviewImages([]);
         } else {

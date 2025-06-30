@@ -81,7 +81,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               </Link>
             </li>
           ))}
-          <li
+          {/* <li
             className={location.pathname === "/customer/login" ? "active" : ""}
           >
             <Link
@@ -92,7 +92,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               <FaSignOutAlt />
               {!isCollapsed && <span className="ml-2">Logout</span>}
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

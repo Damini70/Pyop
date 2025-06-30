@@ -71,7 +71,7 @@ const VendorSidebar = ({ isCollapsed, setIsCollapsed }) => {
             {!isCollapsed && <span className="ms-2">Profile</span>}
           </Link>
         </li> */}
-        <li>
+        {/* <li>
           <Link
             to="/business/signup"
             className="menu-item d-flex align-items-center"
@@ -80,7 +80,7 @@ const VendorSidebar = ({ isCollapsed, setIsCollapsed }) => {
             <FaSignOutAlt />
             {!isCollapsed && <span className="ms-2">Logout</span>}
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

@@ -14,9 +14,8 @@ import Button from "@mui/material/Button";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 
-const VendorLisitngs = () => {
+const VendorLisitngs = ({ listings, setListings }) => {
   const userId = useSelector((state) => state.global.userId);
-  const [listings, setListings] = useState([]);
   const [openEditServiceListing, setOpenEditServiceListing] = useState(false);
   const [userCategories, setUserCategories] = useState([]);
   const [userServiceTypeList, setUserServiceTypeList] = useState([]);
@@ -25,8 +24,9 @@ const VendorLisitngs = () => {
   const [editListing, setEditListing] = useState({});
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // NEW
   const getListings = async () => {
+    setLoading(true);
     try {
       const apiData = await makeRequest(
         "get",
@@ -41,25 +41,39 @@ const VendorLisitngs = () => {
       }
     } catch (error) {
       console.error("An error occurred while fetching listings:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchServices = async () => {
-      const apiData = await makeRequest(
-        "get",
-        `/vendor/vendor-categories?vendorId=${userId}`
-      );
-      if (apiData.status) {
-        setUserCategories(apiData.data.categories);
-        setUserServiceLocations(apiData.data.service_locations);
-        setUserServiceTypeList(apiData.data.service_type);
-        setUserSubCategoryList(apiData.data.sub_categories);
+      try {
+        setLoading(true);
+        const apiData = await makeRequest(
+          "get",
+          `/vendor/vendor-categories?vendorId=${userId}`
+        );
+        if (apiData.status) {
+          setUserCategories(apiData.data.categories);
+          setUserServiceLocations(apiData.data.service_locations);
+          setUserServiceTypeList(apiData.data.service_type);
+          setUserSubCategoryList(apiData.data.sub_categories);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchServices();
-    getListings();
-  }, [loading]);
+
+    const fetchAll = async () => {
+      await fetchServices();
+      await getListings();
+    };
+
+    fetchAll();
+  }, []);
 
   const handleEdit = (id) => {
     setOpenEditServiceListing(true);
@@ -87,7 +101,9 @@ const VendorLisitngs = () => {
   return (
     <>
       {loading ? (
-        <CircularProgress />
+         <div className="flex justify-center items-center w-full h-screen">
+                 <CircularProgress color="primary" />
+               </div>
       ) : (
         <>
           <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>

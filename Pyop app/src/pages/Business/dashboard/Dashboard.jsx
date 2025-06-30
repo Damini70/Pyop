@@ -17,19 +17,24 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { AlignJustify } from "lucide-react";
+import CircularProgress from "@mui/material/CircularProgress"; // NEW
 
 const Dashboard = () => {
   const userId = useSelector((state) => state.global.userId);
   const location = useLocation();
   const vendor_id = location.state;
 
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userCategories, setUserCategories] = useState([]);
   const [userServiceTypeList, setUserServiceTypeList] = useState([]);
   const [userServiceLocations, setUserServiceLocations] = useState([]);
   const [userSubCategoryList, setUserSubCategoryList] = useState([]);
   const [openService, setOpenService] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [listings, setListings] = useState([]);
+
+  const [loading, setLoading] = useState(false); // NEW
 
   const [serviceData, setServiceData] = useState({
     service_name: "",
@@ -105,7 +110,7 @@ const Dashboard = () => {
         },
         vendor_id: userId,
       });
-      setOpenService(false)
+      setOpenService(false);
     } else {
       toast.error(apiData.message);
     }
@@ -113,6 +118,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchServices = async () => {
+      // setLoading(true); // NEW
       const apiData = await makeRequest(
         "get",
         `/vendor/vendor-categories?vendorId=${userId || vendor_id}`
@@ -123,87 +129,105 @@ const Dashboard = () => {
         setUserServiceTypeList(apiData.data.service_type);
         setUserSubCategoryList(apiData.data.sub_categories);
       }
+      // setLoading(false); // NEW
     };
     fetchServices();
-  }, []);
+  }, [userId || vendor_id]);
 
   return (
     <>
-      <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
-        {/* Toggle Sidebar Button */}
-        <div className="md:hidden p-4 shadow">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="text-sm px-4 text-white rounded-md"
-          >
-            {sidebarOpen ? "Close Menu" : "Open Menu"}
-          </button>
+      {loading ? (
+        <div className="flex justify-center items-center w-full h-screen">
+          <CircularProgress color="primary" />
         </div>
-
-        {/* Sidebar */}
-        <div
-          className={`${
-            sidebarOpen ? "block" : "hidden"
-          } md:block w-full bg-white shadow md:shadow-none z-50 h-screen ${
-            isCollapsed ? "md:w-[5%]" : "md:w-[10%]"
-          }`}
-        >
-          <VendorSidebar
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
-        </div>
-
-        {/* Main Content */}
-        <div
-          className={`flex-1  ${
-            isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
-          }`}
-        >
-          <div className="pl-9">
-            <DashboardHeader title="Dashboard" isBusiness={true} />{" "}
-          </div>
-          <VendorLisitngs />
-          <div className="w-[100%] flex justify-center  my-8">
+      ) : (
+        <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
+          {/* Toggle Sidebar Button */}
+          <div className="md:hidden p-4 shadow">
             <button
-              className=" px-6 py-2 rounded-md shadow transition mb-5 ml-4 md:ml-[5rem]"
-              onClick={() => setOpenService(!openService)}
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="text-sm px-4 text-white rounded-md"
             >
-              {openService ? "Close" : "Add"} Service
+              <AlignJustify />
             </button>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Column Placeholder */}
 
-            {/* Right Column - Service Form */}
-            <Dialog
-              open={openService}
-              onClose={() => setOpenService(false)}
-              maxWidth="md"
-              fullWidth
-            >
-              <DialogContent dividers>
-                <ServiceForm
-                  userId={userId}
-                  vendor_id={vendor_id}
-                  userCategories={userCategories}
-                  userSubCategoryList={userSubCategoryList}
-                  userServiceTypeList={userServiceTypeList}
-                />
-              </DialogContent>
+          {/* Sidebar */}
+          <div
+            className={`${
+              sidebarOpen ? "block" : "hidden"
+            } md:block w-full bg-white shadow md:shadow-none z-50 h-screen ${
+              isCollapsed ? "md:w-[5%]" : "md:w-[10%]"
+            }`}
+          >
+            <VendorSidebar
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
+          </div>
 
-              <DialogActions>
-                <button
-                  className="bg-red-800 hover:bg-red-500 text-white px-4 py-1 rounded"
-                  onClick={() => setOpenService(false)}
-                >
-                  Cancel
-                </button>
-              </DialogActions>
-            </Dialog>
+          {/* Main Content */}
+          <div
+            className={`flex-1  ${
+              isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
+            }`}
+          >
+            <div className="pl-9">
+              <DashboardHeader
+                title="Dashboard"
+                isBusiness={true}
+                loading={loading}
+                setloading={setLoading}
+              />{" "}
+            </div>
+            <VendorLisitngs
+              listings={listings}
+              setListings={setListings}
+              loading={loading}
+              setLoading={setLoading}
+            />
+            <div className="w-[100%] flex justify-center  my-8">
+              <button
+                className=" px-6 py-2 rounded-md shadow transition mb-5 ml-4 md:ml-[5rem]"
+                onClick={() => setOpenService(!openService)}
+              >
+                {openService ? "Close" : "Add"} Service
+              </button>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Left Column Placeholder */}
+
+              {/* Right Column - Service Form */}
+              <Dialog
+                open={openService}
+                onClose={() => setOpenService(false)}
+                maxWidth="md"
+                fullWidth
+              >
+                <DialogContent dividers>
+                  <ServiceForm
+                    userId={userId}
+                    vendor_id={vendor_id}
+                    userCategories={userCategories}
+                    userSubCategoryList={userSubCategoryList}
+                    userServiceTypeList={userServiceTypeList}
+                    setOpenService={setOpenService}
+                  />
+                </DialogContent>
+
+                <DialogActions>
+                  <button
+                    className="bg-red-800 hover:bg-red-500 text-white px-4 py-1 rounded"
+                    onClick={() => setOpenService(false)}
+                  >
+                    Cancel
+                  </button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

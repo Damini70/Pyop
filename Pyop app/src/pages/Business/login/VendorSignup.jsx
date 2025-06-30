@@ -231,11 +231,7 @@ const VendorSignup = ({
   };
   console.log(selectedSubCategory);
   return (
-    <div
-      className={`${
-        !showDialog ? "vendor-signup-wrapper" : ""
-      } w-[100%]`}
-    >
+    <div className={`${!showDialog ? "vendor-signup-wrapper" : ""} w-[100%]`}>
       <form onSubmit={handleSubmit}>
         <div className="form-group ">
           <label className="pyop-input-label">Name</label>
@@ -359,7 +355,6 @@ const VendorSignup = ({
             classNamePrefix="select"
           />
         </div>
-
         {!showDialog && (
           <div className="form-group">
             <label className="pyop-input-label">GST Number</label>
@@ -369,8 +364,10 @@ const VendorSignup = ({
               name="gst_number"
               value={formData.gst_number}
               onChange={handleChange}
+              pattern="^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+              title="Enter a valid 15-digit GST number (e.g., 22AAAAA0000A1Z5)"
               required
-            />{" "}
+            />
           </div>
         )}
 

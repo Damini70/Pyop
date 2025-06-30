@@ -116,7 +116,7 @@ const Home = () => {
     <div>
       <div className="hero-section-wrapper pb-[2rem] mt-[50px]">
         {/* <Header /> */}
-        <div className=" d-flex justify-content-center flex-column pt-[3rem] md:pt-[9rem] lg:pt-[10rem]">
+        <div className=" d-flex justify-content-center flex-column pt-[6rem] md:pt-[9rem] lg:pt-[10rem]">
           <div className="d-flex align-items-center justify-content-center">
             <div className="d-flex flex-column m-[2rem] text-center">
               <span className="pyopText">Plan Your Own Party</span>
