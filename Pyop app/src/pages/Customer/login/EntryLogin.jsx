@@ -31,7 +31,10 @@ const EntryLogin = () => {
   //  },[])
   return (
     <>
-      <div className="customer-signup-wrapper d-flex justify-content-center align-items-center min-vh-100 ">
+      <div
+        className="customer-signup-wrapper d-flex justify-content-center align-items-center"
+        style={{ height: "100dvh", overflowY: "auto" }}
+      >
         <div class="custom-shape-divider-bottom-1730197036">
           <svg
             data-name="Layer 1"
@@ -57,13 +60,13 @@ const EntryLogin = () => {
         </div>
         <div className="customer-signup-main-card card">
           <div className="row g-0 h-100 ">
-            <div className="col-12 col-md-5 d-flex justify-content-center customer-login-wrapper">
+            <div className="col-12 col-md-5 md:d-flex justify-content-center customer-login-wrapper ">
               <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row className="d-flex pt-4">
+                <Row className="md:d-flex pt-4">
                   {/* <Col sm={3}> */}
                   <Nav
                     variant="pills"
-                    className="flex-row justify-content-center pt-1 d-flex gap-2"
+                    className="flex-row justify-content-center pt-1 md:d-flex gap-2"
                   >
                     <Nav.Item>
                       <Nav.Link
@@ -83,7 +86,7 @@ const EntryLogin = () => {
                     </Nav.Item>
                   </Nav>
                   {/* </Col> */}
-                  <Col>
+                  <Col className="">
                     <Tab.Content className="">
                       <Tab.Pane eventKey="first" className="">
                         <Login />

@@ -50,7 +50,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="customer-signup-area-wrapper px-3">
+    <div className="customer-signup-area-wrapper px-3 mt-20">
       {/* <h2>Signup</h2> */}
       <form onSubmit={handleSubmit}>
         <div className="form-group">

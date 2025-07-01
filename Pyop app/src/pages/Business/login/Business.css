@@ -111,6 +111,7 @@
       scrollbar-width: thin; /* Makes the scrollbar thin */
       scrollbar-color: #b0d0d6 #f1f1f1; 
       height: 90vh;
+      height:90dvh;
       overflow: auto;
     }
 
