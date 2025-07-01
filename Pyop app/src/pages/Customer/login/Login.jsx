@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="px-4 mt-20">
+    <div className="px-4 mt-[7rem]">
       {/* <h2>Login</h2> */}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
