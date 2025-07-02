@@ -34,12 +34,13 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setUserType(null);
     localStorage.clear();
+    navigate("/");
   };
 
   if (loading) {
     // You can return a loading spinner or null here
     return (
-      <div>
+      <div className="flex justify-center items-center w-full h-screen">
         <CircularProgress />
       </div>
     );

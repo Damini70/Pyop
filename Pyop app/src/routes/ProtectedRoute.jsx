@@ -3,17 +3,16 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const { isAuthenticated, userType, loading } = useAuth();
+  const { isAuthenticated, userType, login,logout} = useAuth();
 
-  // Prevent redirect until loading is complete
-  if (loading) return null;
+ console.log({requiredRole})
 
   // Redirect unauthenticated users
   if (!isAuthenticated) {
     return requiredRole === "business" ? (
-      <Navigate to="/business/signup" replace />
+      <Navigate to="/business/signup" replace/>
     ) : (
-      <Navigate to="/customer/login" replace />
+      <Navigate to="/customer/login" replace/>
     );
   }
 
@@ -21,7 +20,6 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   if (requiredRole && userType !== requiredRole) {
     return userType === "customer" ? (
       <>
-        {" "}
         <Navigate to="/business/signup" replace />
       </>
     ) : (

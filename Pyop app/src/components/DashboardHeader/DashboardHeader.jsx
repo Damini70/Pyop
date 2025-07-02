@@ -7,12 +7,14 @@ import { makeRequest } from "../../services/generalFunctions";
 import { useLocation, useNavigate } from "react-router";
 import { SquarePen } from "lucide-react";
 import { Button, Menu, MenuItem } from "@mui/material"; // NEW  (added Menu & MenuItem)
+import { useAuth } from "../../routes/AuthContext";
 
 const DashboardHeader = ({ title, isBusiness }) => {
   const vendorId = useSelector((state) => state.global.userId);
   const proImg = useSelector((state) => state.global.profileImg);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {logout}=useAuth()
 
   const [anchorEl, setAnchorEl] = useState(null); // NEW (menu anchor)
 
@@ -45,11 +47,9 @@ const DashboardHeader = ({ title, isBusiness }) => {
   const handleCloseMenu = () => setAnchorEl(null); // NEW
   const handleLogout = () => {
     toast.success("Logout Successfully!");
-    localStorage.clear();
     dispatch(setProfile({}));
-    navigate(-1);
-    setUserId("");
-  }; // NEW
+    logout();
+  }; 
 
   return (
     <div className="d-flex flex-column p-3">
