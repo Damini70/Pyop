@@ -107,10 +107,10 @@ const serviceSchema = new mongoose.Schema(
       },
       required: true,
     },
-    images: {
-      type: Array,
-      required: true,
-    },
+    // images: {
+    //   type: Array,
+    //   required: true,
+    // },
     vendor_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "vendor",

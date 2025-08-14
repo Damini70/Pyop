@@ -15,17 +15,25 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { AlignJustify } from "lucide-react";
-import CircularProgress from "@mui/material/CircularProgress"; // NEW
+import { AlignJustify, User, LogOut } from "lucide-react";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useDispatch } from "react-redux";
+import { setProfile } from "../../../redux/actions";
+import { useAuth } from "../../../routes/AuthContext";
 
 const Dashboard = () => {
   const userId = useSelector((state) => state.global.userId);
   const location = useLocation();
   const vendor_id = location.state;
+  const dispatch = useDispatch();
+  const { logout } = useAuth();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [userCategories, setUserCategories] = useState([]);
   const [userServiceTypeList, setUserServiceTypeList] = useState([]);
   const [userServiceLocations, setUserServiceLocations] = useState([]);
@@ -34,7 +42,23 @@ const Dashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [listings, setListings] = useState([]);
 
-  const [loading, setLoading] = useState(false); // NEW
+  const [loading, setLoading] = useState(false);
+
+  // Menu handlers
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    toast.success("Logout Successfully!");
+    dispatch(setProfile({}));
+    logout();
+    handleCloseMenu();
+  };
 
   const [serviceData, setServiceData] = useState({
     service_name: "",
@@ -137,94 +161,133 @@ const Dashboard = () => {
   return (
     <>
       {loading ? (
-        <div className="flex justify-center items-center w-full h-screen">
-          <CircularProgress color="primary" />
+        <div className="flex justify-center items-center w-full h-screen bg-gray-50">
+          <div className="text-center">
+            <CircularProgress color="primary" size={60} />
+            <p className="mt-4 text-gray-600 font-medium">Loading Dashboard...</p>
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row w-full h-screen bg-vendor-pyop overflow-y-auto">
-          {/* Toggle Sidebar Button */}
-          <div className="md:hidden p-4 shadow">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-sm px-4 text-white rounded-md"
-            >
-              <AlignJustify />
-            </button>
-          </div>
-
-          {/* Sidebar */}
-          <div
-            className={`${
-              sidebarOpen ? "block" : "hidden"
-            } md:block w-full bg-white shadow md:shadow-none z-50 h-screen ${
-              isCollapsed ? "md:w-[5%]" : "md:w-[10%]"
-            }`}
-          >
-            <VendorSidebar
-              isCollapsed={isCollapsed}
-              setIsCollapsed={setIsCollapsed}
-            />
+        <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
+          {/* Mobile Header with Menu */}
+          <div className="md:hidden bg-white shadow-sm border-b">
+            <div className="flex items-center justify-between p-2">
+              <h1 className="text-xl font-bold text-gray-800">Dashboard</h1>
+              <div className="flex items-center">
+                <button
+                  onClick={handleOpenMenu}
+                  className="p-2.5 rounded-xl bg-blue-900 text-white hover:bg-blue-800 transition-colors flex items-center justify-center"
+                  aria-label="Open menu"
+                >
+                  <User size={20} />
+                </button>
+                
+                {/* Dropdown Menu */}
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  PaperProps={{
+                    className: 'mt-2 shadow-lg border'
+                  }}
+                >
+                  <MenuItem onClick={handleLogout} className="flex items-center gap-2 px-4 py-2">
+                    <LogOut size={16} />
+                    <span>Logout</span>
+                  </MenuItem>
+                </Menu>
+              </div>
+            </div>
           </div>
 
           {/* Main Content */}
-          <div
-            className={`flex-1  ${
-              isCollapsed ? "md:w-[95%] pr-6 lg:pl-10" : "md:w-[80%] pr-6"
-            }`}
-          >
-            <div className="pl-9">
-              <DashboardHeader
-                title="Dashboard"
-                isBusiness={true}
-                loading={loading}
-                setloading={setLoading}
-              />{" "}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Desktop Header */}
+            <div className="hidden md:block bg-white shadow-sm border-b">
+              <div className="px-6 ">
+                <DashboardHeader
+                  title="Dashboard"
+                  isBusiness={true}
+                  loading={loading}
+                  setloading={setLoading}
+                />
+              </div>
             </div>
-            <VendorLisitngs
-              listings={listings}
-              setListings={setListings}
-              loading={loading}
-              setLoading={setLoading}
-            />
-            <div className="w-[100%] flex justify-center  my-8">
-              <button
-                className=" px-6 py-2 rounded-md shadow transition mb-5 ml-4 md:ml-[5rem]"
-                onClick={() => setOpenService(!openService)}
-              >
-                {openService ? "Close" : "Add"} Service
-              </button>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left Column Placeholder */}
 
-              {/* Right Column - Service Form */}
-              <Dialog
-                open={openService}
-                onClose={() => setOpenService(false)}
-                maxWidth="md"
-                fullWidth
-              >
-                <DialogContent dividers>
-                  <ServiceForm
-                    userId={userId}
-                    vendor_id={vendor_id}
-                    userCategories={userCategories}
-                    userSubCategoryList={userSubCategoryList}
-                    userServiceTypeList={userServiceTypeList}
-                    setOpenService={setOpenService}
+            {/* Content Area */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-4 md:p-6 space-y-6">
+                {/* Vendor Listings */}
+                <div className="bg-white rounded-lg shadow-sm border">
+                  <VendorLisitngs
+                    listings={listings}
+                    setListings={setListings}
+                    loading={loading}
+                    setLoading={setLoading}
                   />
-                </DialogContent>
+                </div>
 
-                <DialogActions>
+                {/* Add Service Button */}
+                <div className="flex justify-center">
                   <button
-                    className="bg-red-800 hover:bg-red-500 text-white px-4 py-1 rounded"
-                    onClick={() => setOpenService(false)}
+                    className="bg-blue-900 text-white hover:bg-blue-800 transition-colors px-8 py-3 rounded-lg shadow-md duration-200 transform hover:scale-105 font-medium flex items-center gap-2"
+                    onClick={() => setOpenService(!openService)}
                   >
-                    Cancel
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    {openService ? "Close Service Form" : "Add New Service"}
                   </button>
-                </DialogActions>
-              </Dialog>
+                </div>
+              </div>
             </div>
+
+            {/* Service Form Dialog */}
+            <Dialog
+              open={openService}
+              onClose={() => setOpenService(false)}
+              maxWidth="md"
+              fullWidth
+              PaperProps={{
+                className: "rounded-lg"
+              }}
+            >
+              <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white p-6">
+                <h2 className="text-2xl font-bold">Add New Service</h2>
+                <p className="text-blue-100 mt-1">Fill in the details to create a new service listing</p>
+              </div>
+              
+              <DialogContent dividers className="p-6">
+                <ServiceForm
+                  userId={userId}
+                  vendor_id={vendor_id}
+                  userCategories={userCategories}
+                  userSubCategoryList={userSubCategoryList}
+                  userServiceTypeList={userServiceTypeList}
+                  setOpenService={setOpenService}
+                  setListings={setListings}
+                  loading={loading}
+                  setLoading={setLoading}
+                />
+              </DialogContent>
+
+              <DialogActions className="p-4 bg-gray-50">
+                <button
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+                  onClick={() => setOpenService(false)}
+                >
+                  Cancel
+                </button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       )}

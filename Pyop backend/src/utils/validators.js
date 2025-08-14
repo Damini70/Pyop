@@ -1,7 +1,4 @@
 const Joi = require("joi");
-const multer = require("multer");
-const express = require("express");
-const upload = multer(); // Use in-memory storage for simplicity
 
 const signupVendorValidatorSChema = Joi.object({
   name: Joi.string().min(3).max(30).required().messages({

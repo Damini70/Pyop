@@ -6,7 +6,7 @@ import Select from "react-select";
 import toast from "react-hot-toast";
 import { makeRequest } from "../services/generalFunctions";
 import Button from "@mui/material/Button";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -72,7 +72,9 @@ export default function ServiceForm({
   setOpenEditServiceListing,
   editListing,
   setEditListing,
+  loading,
   setLoading,
+  setListings,
   setOpenService,
 }) {
   const [previewImages, setPreviewImages] = useState([]);
@@ -207,6 +209,7 @@ export default function ServiceForm({
         setLoading(false);
       }
     } else {
+      setLoading(true);
       try {
         const apiData = await makeRequest(
           "post",
@@ -220,6 +223,9 @@ export default function ServiceForm({
                  "get",
                  `vendor/vendor-listings?vendorId=${userId}`
                );
+          if(serviceData.message){
+          setListings(serviceData.data);
+          }     
           if (setOpenService) setOpenService(false);
           reset();
           setPreviewImages([]);
@@ -229,6 +235,8 @@ export default function ServiceForm({
       } catch (error) {
         toast.error("An error occurred while submitting the form.");
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -290,25 +298,31 @@ export default function ServiceForm({
           </Button>
         </DialogActions>
       </Dialog>
-      <div className="card shadow-sm border border-0 p-4">
-        {openEditServiceListing ? (
-          <h3>Edit Services</h3>
-        ) : (
-          <h3>Add Services</h3>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Service Name</label>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {loading && (
+            <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 rounded-lg">
+              <div className="flex items-center gap-3 text-blue-900">
+                <Loader2 className="w-6 h-6 animate-spin" />
+                <span className="text-lg font-medium">
+                  {openEditServiceListing ? 'Updating service...' : 'Creating service...'}
+                </span>
+              </div>
+            </div>
+          )}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Service Name</label>
             <input
               {...register("service_name")}
-              className="border p-1 w-full pyop-input"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Enter service name"
             />
             {errors.service_name && (
-              <p className="text-danger">{errors.service_name.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.service_name.message}</p>
             )}
           </div>
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Venue Types</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Venue Types</label>
             <Controller
               name="venue_type"
               control={control}
@@ -322,48 +336,62 @@ export default function ServiceForm({
                       ? { label: field.value, value: field.value }
                       : null
                   }
+                  placeholder="Select venue type"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      padding: '8px',
+                      borderRadius: '8px',
+                      borderColor: '#d1d5db',
+                      '&:hover': { borderColor: '#3b82f6' },
+                      '&:focus-within': { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' }
+                    })
+                  }}
                 />
               )}
             />
-
             {errors.venue_type && (
-              <p className="text-danger">{errors.venue_type.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.venue_type.message}</p>
             )}
           </div>
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Venue Name</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Venue Name</label>
             <input
               {...register("venue_name")}
-              className="border p-1 w-full pyop-input"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Enter venue name"
             />
             {errors.venue_name && (
-              <p className="text-danger">{errors.venue_name.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.venue_name.message}</p>
             )}
           </div>
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Venue Location</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Venue Location</label>
             <input
               {...register("venue_location")}
-              className="border p-1 w-full pyop-input"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Enter venue location"
             />
             {errors.venue_location && (
-              <p className="text-danger">{errors.venue_location.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.venue_location.message}</p>
             )}
           </div>
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">No. Of Guests</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Number of Guests</label>
             <input
               type="number"
               {...register("no_of_guests")}
-              className="border p-2 w-full"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Enter number of guests"
+              min="1"
             />
             {errors.no_of_guests && (
-              <p className="text-danger">{errors.no_of_guests.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.no_of_guests.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Category</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Category</label>
             <Controller
               name="category"
               control={control}
@@ -377,16 +405,27 @@ export default function ServiceForm({
                       ? { label: field.value, value: field.value }
                       : null
                   }
+                  placeholder="Select category"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      padding: '8px',
+                      borderRadius: '8px',
+                      borderColor: '#d1d5db',
+                      '&:hover': { borderColor: '#3b82f6' },
+                      '&:focus-within': { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' }
+                    })
+                  }}
                 />
               )}
             />
             {errors.category && (
-              <p className="text-danger">{errors.category.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Sub-category</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Sub-category</label>
             <Controller
               name="sub_category"
               control={control}
@@ -400,16 +439,27 @@ export default function ServiceForm({
                       ? { label: field.value, value: field.value }
                       : null
                   }
+                  placeholder="Select sub-category"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      padding: '8px',
+                      borderRadius: '8px',
+                      borderColor: '#d1d5db',
+                      '&:hover': { borderColor: '#3b82f6' },
+                      '&:focus-within': { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' }
+                    })
+                  }}
                 />
               )}
             />
             {errors.sub_category && (
-              <p className="text-danger">{errors.sub_category.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.sub_category.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Service Type</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Service Type</label>
             <Controller
               name="service_type"
               control={control}
@@ -423,72 +473,88 @@ export default function ServiceForm({
                       ? { label: field.value, value: field.value }
                       : null
                   }
+                  placeholder="Select service type"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      padding: '8px',
+                      borderRadius: '8px',
+                      borderColor: '#d1d5db',
+                      '&:hover': { borderColor: '#3b82f6' },
+                      '&:focus-within': { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' }
+                    })
+                  }}
                 />
               )}
             />
             {errors.service_type && (
-              <p className="text-danger">{errors.service_type.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.service_type.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Description</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Description</label>
             <textarea
               {...register("description")}
-              className="border p-2 w-full"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
+              placeholder="Enter service description"
+              rows="4"
             />
             {errors.description && (
-              <p className="text-danger">{errors.description.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Price</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Price</label>
             <input
               type="number"
               {...register("price")}
-              className="border p-2 w-full"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Enter price"
+              min="0"
+              step="0.01"
             />
             {errors.price && (
-              <p className="text-danger">{errors.price.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
             )}
           </div>
 
-          <div className="mb-2 flex-column d-flex">
-            <label className="pyop-input-label">Images</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Images</label>
             <input
               type="file"
               accept="image/*"
               multiple
               {...register("images")}
               onChange={handleImageChange}
-              className="border p-2 w-full"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
             {errors.images && (
-              <p className="text-danger">{errors.images.message}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
             )}
 
             {/* Image preview */}
             {previewImages.length > 0 && openEditServiceListing && (
-              <div className="mt-2 d-flex flex-wrap">
-                {previewImages.slice(0, 3).map((item, index) => (
-                  <div key={index} className="me-2 mb-2 position-relative">
-                    <img
-                      src={item.data}
-                      alt={`Preview ${index + 1}`}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
-                      className="border rounded"
-                    />
-                    <X
-                      onClick={() => handleOpenDelete(item.id)}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                ))}
+              <div className="mt-4">
+                <div className="grid grid-cols-3 gap-4">
+                  {previewImages.slice(0, showAll ? previewImages.length : 3).map((item, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={item.data}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg border border-gray-300 shadow-sm"
+                      />
+                      <button
+                        onClick={() => handleOpenDelete(item.id)}
+                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        type="button"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
 
                 {previewImages.length > 3 && (
                   <button
@@ -496,86 +562,92 @@ export default function ServiceForm({
                       e.preventDefault();
                       setShowAll(!showAll);
                     }}
-                    className="btn btn-sm btn-outline-secondary"
+                    className="mt-3 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                    type="button"
                   >
                     {showAll
                       ? "Show Less"
                       : `+${previewImages.length - 3} More`}
                   </button>
                 )}
-
-                {showAll &&
-                  previewImages.slice(3).map((item, index) => (
-                    <div
-                      key={index + 3}
-                      className="me-2 mb-2 position-relative"
-                    >
-                      <img
-                        src={item.data}
-                        alt={`Preview ${index + 4}`}
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
-                        }}
-                        className="border rounded"
-                      />
-                      <X onClick={() => handleOpenDelete(item.id)} />
-                    </div>
-                  ))}
               </div>
             )}
           </div>
 
-          <div className="mb-4 d-flex">
-            <label className="pyop-input-label">Catering</label>
-            <input
-              type="checkbox"
-              {...register("catering.is_catering")}
-              className="ms-2"
-            />
+          <div className="space-y-2">
+            <div className="flex items-center space-x-3">
+              <input
+                type="checkbox"
+                {...register("catering.is_catering")}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                id="catering-checkbox"
+              />
+              <label htmlFor="catering-checkbox" className="text-sm font-semibold text-gray-700">
+                Include Catering Services
+              </label>
+            </div>
           </div>
 
           {isCatering && (
-            <>
-              <div className="mb-2 d-flex flex-column">
-                <label className="pyop-input-label">
+            <div className="space-y-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">
                   Price Including Catering
                 </label>
                 <input
                   type="number"
                   {...register("catering.price_catering_including")}
-                  className="border p-2 w-full"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  placeholder="Enter catering price"
+                  min="0"
+                  step="0.01"
                 />
               </div>
-              <div className="mb-2 d-flex flex-column">
-                <label className="pyop-input-label">Minimum Qty</label>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Minimum Quantity</label>
                 <input
                   type="number"
                   {...register("catering.minimum_qty")}
-                  className="border p-2 w-full"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  placeholder="Enter minimum quantity"
+                  min="1"
                 />
               </div>
-            </>
+            </div>
           )}
 
-          {openEditServiceListing ? (
-            <div className="flex justify-between">
-              <button
-                onClick={() => setOpenEditServiceListing(false)}
-                className="pyop-button"
-              >
-                Cancel
-              </button>
-              <button type="submit" className="pyop-button">
-                Submit
-              </button>
-            </div>
-          ) : (
-            <button type="submit" className="pyop-button">
-              Submit
-            </button>
-          )}
+          <div className="pt-6 border-t border-gray-200">
+            {openEditServiceListing ? (
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setOpenEditServiceListing(false)}
+                  className="px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className="px-8 py-3 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors transform hover:scale-105 duration-200 flex items-center gap-2"
+                >
+                  {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {loading ? 'Updating...' : 'Update Service'}
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-end">
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className="px-8 py-3 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors transform hover:scale-105 duration-200 flex items-center gap-2"
+                >
+                  {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {loading ? 'Creating...' : 'Create Service'}
+                </button>
+              </div>
+            )}
+          </div>
         </form>
       </div>
     </>

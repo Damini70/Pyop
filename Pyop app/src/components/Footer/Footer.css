@@ -1,35 +1,127 @@
-.Footer-Wrapper{
-    /* height: 50vh; */
-    @apply bg-primary
+.Footer-Wrapper {
+    @apply bg-primary;
+    position: relative;
+    min-height: 400px;
 }
-.text-theme{
-    color: #e1f196;
+
+/* Enhanced gradient text effect */
+.footer-gradient-text {
+    background: linear-gradient(135deg, #fbbf24, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
-.form-control-dark{
-    background-color: #383838 !important;
-    color: rgb(228, 228, 101) !important;
-    box-shadow: none !important;
-    outline:  none !important;
-    border: none !important;
-    padding: 7px 5px;
-    font-size: 15px;
+
+/* Animated social icons */
+.social-icon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.social-icon:hover::before {
+    left: 100%;
+}
+
+/* Newsletter input styling */
+.newsletter-input {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.newsletter-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Quick links hover effect */
+.footer-link {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: linear-gradient(90deg, #fbbf24, #10b981);
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+/* Contact info hover effects */
+.contact-item {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.contact-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+}
+
+/* Decorative elements animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.floating-element {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Bottom border animation */
+.footer-border {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    height: 1px;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .Footer-Wrapper {
+        min-height: auto;
+    }
     
-    /* border */
-}
-.form-control-dark:focus {
-    border-color: #80bdff !important;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
-  }
-.form-control-dark::placeholder{
-    color: rgb(176, 176, 171) !important;
-}
-.btn-submit-dark{
-background-color: #383838;
-color: #e1f196;
-}
-.btn-submit-dark:hover{
-    background-color: #3e3e3e;
-    box-shadow: rgba(161, 161, 190, 0.25) 0px 13px 27px -5px, rgba(139, 139, 139, 0.3) 0px 8px 16px -8px;
-transition: 0.5s;
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
 }

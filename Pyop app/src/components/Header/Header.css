@@ -1,5 +1,138 @@
 
-.logo-text{
+/* Enhanced navbar with glassmorphism */
+.navbar-glass {
+  @apply bg-primary/90;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 5000 !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+  @apply bg-primary/95;
+  backdrop-filter: blur(25px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Modern navigation links */
+.nav-link-modern {
+  @apply relative px-4 py-2 mx-1 text-white font-medium rounded-lg transition-all duration-300;
+  overflow: hidden;
+}
+
+.nav-link-modern:hover {
+  @apply text-white transform scale-105;
+}
+
+.nav-link-bg {
+  @apply absolute inset-0 opacity-0 rounded-lg transition-opacity duration-300;
+}
+
+.nav-link-modern:hover .nav-link-bg {
+  @apply opacity-20;
+}
+
+/* Profile button styling */
+.profile-button {
+  @apply p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-300 border border-white/10;
+}
+
+.profile-button:hover {
+  @apply shadow-lg transform scale-105;
+}
+
+/* Profile dropdown */
+.profile-dropdown {
+  @apply absolute top-full right-0 mt-2 w-64 bg-gray-800/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-700/50 z-50;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  @apply w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 rounded-lg mx-2 my-1;
+}
+
+.dropdown-item:hover {
+  @apply transform translate-x-1;
+}
+
+/* Mobile navigation */
+.mobile-nav-link {
+  @apply block px-4 py-3 text-white hover:text-yellow-400 hover:bg-white/10 rounded-lg transition-all duration-200 mx-2 my-1;
+}
+
+/* Logo animations */
+.logo-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+}
+
+/* Notification badge */
+.notification-badge {
+  @apply absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white;
+  animation: pulse 2s infinite;
+}
+
+/* Enhanced glassmorphism for buttons */
+.glass-button {
+  @apply bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300;
+}
+
+.glass-button:hover {
+  @apply shadow-lg transform scale-105;
+}
+
+/* Gradient border effect */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(45deg, #fbbf24, #ec4899, #8b5cf6);
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.gradient-border img {
+  border-radius: 50%;
+}
+
+/* Status indicator */
+.status-online {
+  @apply absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white;
+  animation: pulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-glass {
+    @apply bg-primary/95;
+  }
+  
+  .profile-dropdown {
+    @apply w-56 right-2;
+  }
+}
+
+/* Legacy styles for compatibility */
+.logo-text {
     font-family: "Roboto Mono", monospace !important;
     font-optical-sizing: auto;
     font-weight: 700;
@@ -8,23 +141,17 @@
     font-size: 35px;
 }
 
-.navbar-glass {
-  @apply bg-primary;   /* semi-transparent dark */
-  backdrop-filter: blur(6px);           /* frosted-glass effect */
-  -webkit-backdrop-filter: blur(6px);   /* Safari support */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 5000 !important;                        /* sits above page content */
-}
-
-.profile-image-navbar-style{
+.profile-image-navbar-style {
     width: 100%;
     height: 100%;
     border-radius: 50%;
 }
-.profile-sectionNavbar{
+
+.profile-sectionNavbar {
     background-color: #1f1f1f;
 }
-.profile-image-wrapper{
+
+.profile-image-wrapper {
     height: 6vh;
     width: 6vh;
     border-radius: 50%;

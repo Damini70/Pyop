@@ -8,7 +8,11 @@ import DashboardHeader from "../../../../components/DashboardHeader/DashboardHea
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import CircularProgress from "@mui/material/CircularProgress"; // NEW
+import CircularProgress from "@mui/material/CircularProgress";
+import img from "../../../../images/pyop1.jpg"
+
+
+
 
 const CustomerDashboard = () => {
   const dispatch = useDispatch();
@@ -19,7 +23,7 @@ const CustomerDashboard = () => {
   const [localFilterData, setLocalFilterData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar toggle
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [loading, setLoading] = useState(true); // NEW
+  const [loading, setLoading] = useState(false); // NEW
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -34,11 +38,13 @@ const CustomerDashboard = () => {
   }, []);
   console.log(state);
 
-  const navigate = useNavigate();
   useEffect(() => {
+    console.log("🔄 getAllServices useEffect running");
+
     const getAllServices = async () => {
+      console.log("📞 Making API call to getAllServices");
       try {
-        setLoading(true); // NEW
+        setLoading(true);
         const queryParams = Object.entries(state)
           .filter(
             ([key, value]) => (value && value !== "false") || value === true
@@ -51,28 +57,32 @@ const CustomerDashboard = () => {
           })
           .join("&");
 
+        console.log("🔍 Query params:", queryParams);
         const apiData = await makeRequest(
           "get",
           `user/all-services?${queryParams}`
         );
 
-        console.log({ apiData });
+        console.log("✅ API response received:", apiData);
         if (apiData.status) {
-          console.log(apiData.data);
           setAllServices(apiData.services);
         } else {
-          console.log(apiData);
-
           toast.error(apiData.message);
         }
       } catch (error) {
+        console.error("❌ Error in getAllServices:", error);
         toast.error(error);
       } finally {
-        setLoading(false); // NEW
+        setLoading(false);
       }
     };
+
     getAllServices();
-  }, []);
+
+    return () => {
+      console.log("🧹 getAllServices useEffect cleanup");
+    };
+  }, []); // Empty dependency array
 
   const handleAddToCart = async (id) => {
     try {
@@ -137,7 +147,7 @@ const CustomerDashboard = () => {
                       <div>
                         <img
                           className="w-100 rounded object-fit-cover"
-                          src={service.images[0]?.data}
+                          src={img}
                           alt={service.service_name}
                           style={{ height: "180px", objectFit: "cover" }}
                         />

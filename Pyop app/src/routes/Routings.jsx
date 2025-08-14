@@ -15,6 +15,9 @@ import CustomerServiceInfo from "../pages/Customer/login/dashboard/CustomerServi
 import CreateParty from "../pages/Customer/login/CreateParty/CreateParty";
 import CustomParty from "../pages/Customer/CustomParty/CustomParty";
 import PyopParty from "../pages/Customer/PyopParty.js/PyopParty";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "../pages/TermsOfService/TermsOfService";
+import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
 
 const CustomerProtectedRoute = (element) => {
   return <ProtectedRoute requiredRole="customer">{element}</ProtectedRoute>;
@@ -33,6 +36,9 @@ const Routings = () => {
           <Route path="/" element={<Home />} />
           <Route path="/customer/login" element={<EntryLogin />} />
           <Route path="/business/signup" element={<EntryVendor />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
           {/* <Route path="/customer/dashboard" element={<EntryLogin />} />
           <Route path="/business/dashboard" element={<EntryVendor />} /> */}
           {/* Protected Routes */}-------------------------

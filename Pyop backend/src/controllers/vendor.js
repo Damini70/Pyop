@@ -1,13 +1,10 @@
 const { Vendor, VendorService } = require("../models/vendor");
 const bcrypt = require("bcrypt"); // Make sure to install bcrypt for hashing
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage }).array("images", 10); // Handle up to 10 images
-const upload1 = multer({ storage }).single("profile_pic");
 const path = require('path');
 const fs = require('fs');
-const crypto=require("crypto");
+const crypto = require("crypto");
+const { getFileUrl, deleteFile } = require("../middlewares/multer");
 
 
 const handleSingupVendor = async (req, res) => {
@@ -279,120 +276,120 @@ const handleGetVendorLocations= async(req,res)=>{
 //   }
 // };
 const handlePostService = async (req, res) => {
-  
   try {
-    upload(req, res, async (err) => {
-      if (err) {
-        return res
-          .status(500)
-          .json({ status: false, message: "Upload error", error: err.message });
-      }
+    const {
+      service_name,
+      service_type,
+      category,
+      sub_category,
+      description,
+      no_of_guests,
+      price,
+      vendor_id,
+      venue_type,
+      venue_name,
+      venue_location,
+      venue_map, // Will be parsed if present
+      catering,
+    } = req.body;
 
-      const {
-        service_name,
-        service_type,
-        category,
-        sub_category,
-        description,
-        no_of_guests,
-        price,
-        vendor_id,
-        venue_type,
-        venue_name,
-        venue_location,
-        venue_map, // Will be parsed if present
-        catering,
-      } = req.body;
-
-      // Validate required fields
-      if (
-        !service_name ||
-        !service_type ||
-        !category ||
-        !sub_category ||
-        !description ||
-        !no_of_guests ||
-        !price ||
-        !vendor_id ||
-        !venue_type ||
-        !venue_name ||
-        !venue_location ||
-        !catering
-      ) {
-        return res.status(400).json({
-          message: "All required fields must be provided",
-          status: false,
-        });
-      }
-
-      // Validate vendor existence
-      const vendorExists = await Vendor.findById(vendor_id);
-      if (!vendorExists) {
-        return res.status(404).json({
-          message: "Vendor not found",
-          status: false,
-        });
-      }
-
-      // Parse catering info
-      const parsedCatering = JSON.parse(catering);
-      if (typeof parsedCatering.is_catering !== "boolean") {
-        return res.status(400).json({
-          message: "Catering must include is_catering as a boolean",
-          status: false,
-        });
-      }
-
-      // Optional: parse venue_map if sent
-      let parsedVenueMap = undefined;
-      if (venue_map) {
-        try {
-          parsedVenueMap = JSON.parse(venue_map); // Expecting JSON string from frontend
-        } catch (e) {
-          return res.status(400).json({
-            message: "Invalid venue_map format",
-            status: false,
-          });
-        }
-      }
-
-      // Process image files
-      const imageData = req.files && req.files.length > 0 
-        ? req.files.map(file => ({
-            id: crypto.randomUUID(),
-            data: `data:image/png;base64,${file.buffer.toString("base64")}`,
-          }))
-        : [];
-
-      // Create new service document
-      const newService = new VendorService({
-        service_name,
-        service_type,
-        category,
-        sub_category,
-        description,
-        price,
-        no_of_guests,
-        venue_type,
-        venue_name,
-        venue_location,
-        venue_map: parsedVenueMap,
-        catering: {
-          is_catering: parsedCatering.is_catering,
-          price_catering_including: parsedCatering.price_catering_including || undefined,
-          minimum_qty: parsedCatering.minimum_qty || undefined,
-        },
-        images: imageData,
-        vendor_id,
+    // Validate required fields
+    if (
+      !service_name ||
+      !service_type ||
+      !category ||
+      !sub_category ||
+      !description ||
+      !no_of_guests ||
+      !price ||
+      !vendor_id ||
+      !venue_type ||
+      !venue_name ||
+      !venue_location ||
+      !catering
+    ) {
+      return res.status(400).json({
+        message: "All required fields must be provided",
+        status: false,
       });
+    }
 
-      const savedService = await newService.save();
-
-      res.status(201).json({
-        message: "Service created successfully",
-        data: savedService,
-        status: true,
+    // Validate vendor existence
+    const vendorExists = await Vendor.findById(vendor_id);
+    if (!vendorExists) {
+      return res.status(404).json({
+        message: "Vendor not found",
+        status: false,
       });
+    }
+
+    // Parse catering info
+    const parsedCatering = JSON.parse(catering);
+    if (typeof parsedCatering.is_catering !== "boolean") {
+      return res.status(400).json({
+        message: "Catering must include is_catering as a boolean",
+        status: false,
+      });
+    }
+
+    // Optional: parse venue_map if sent
+    let parsedVenueMap = undefined;
+    if (venue_map) {
+      try {
+        parsedVenueMap = JSON.parse(venue_map); // Expecting JSON string from frontend
+      } catch (e) {
+        return res.status(400).json({
+          message: "Invalid venue_map format",
+          status: false,
+        });
+      }
+    }
+
+    // Process uploaded images using multer disk storage
+    const imageData = [];
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        const imageUrl = getFileUrl(req, file.filename, 'services');
+        imageData.push({
+          id: crypto.randomUUID(),
+          filename: file.filename,
+          originalName: file.originalname,
+          url: imageUrl,
+          path: file.path,
+          size: file.size,
+          mimetype: file.mimetype
+        });
+      });
+    }
+
+    // Create new service document
+    const newService = new VendorService({
+      service_name,
+      service_type,
+      category,
+      sub_category,
+      description,
+      price,
+      no_of_guests,
+      venue_type,
+      venue_name,
+      venue_location,
+      venue_map: parsedVenueMap,
+      catering: {
+        is_catering: parsedCatering.is_catering,
+        price_catering_including: parsedCatering.price_catering_including || undefined,
+        minimum_qty: parsedCatering.minimum_qty || undefined,
+      },
+      images: imageData,
+      vendor_id,
+    });
+
+    const savedService = await newService.save();
+
+    res.status(201).json({
+      message: "Service created successfully",
+      data: savedService,
+      status: true,
     });
   } catch (error) {
     console.error(error);
@@ -465,54 +462,48 @@ const handleDeleteProfilePic=async(req,res)=>{
 }
 
 const handlePostProfilePic = async (req, res) => {
-    upload1(req, res, async (err) => {
-      if (err) {
-        return res.status(500).json({
-          message: "Upload error",
-          error: err.message,
+    try {
+      const vendorId = req.query.vendorId;
+      if (!vendorId) {
+        return res.status(400).json({
+          message: "Vendor ID is required",
           status: false,
         });
       }
-  
-      try {
-        const vendorId = req.query.vendorId;
-        if (!vendorId) {
-          return res.status(400).json({
-            message: "Vendor ID is required",
-            status: false,
-          });
-        }
-  
-        const vendor = await Vendor.findById(vendorId);
-        if (!vendor) {
-          return res.status(404).json({
-            message: "Vendor not found",
-            status: false,
-          });
-        }
-       
-        const profile_picURL = req.file?req.file.buffer.toString("base64"):null;
-          vendor.profile_pic = profile_picURL 
-    ? `data:image/png;base64,${profile_picURL}` 
-    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWJR309C296hRO0kyhmBvOdn3IUNoQ0bJuls-bhARbnOgc8OKFcg&s=10&ec=72940544";
 
-        await vendor.save();
-     
-  
-        res.status(200).json({
-          message: "Profile Pic Uploaded successfully",
-          // profile_pic:vendor.profile_pic,
-          status: true,
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({
-          message: "Error uploading profile pic",
-          error: error.message,
+      const vendor = await Vendor.findById(vendorId);
+      if (!vendor) {
+        return res.status(404).json({
+          message: "Vendor not found",
           status: false,
         });
       }
-    });
+
+      // Delete old profile picture if it exists
+      if (vendor.profile_pic && vendor.profile_pic.startsWith('/uploads/')) {
+        await deleteFile(vendor.profile_pic);
+      }
+
+      // Set new profile picture URL or default
+      vendor.profile_pic = req.file 
+        ? getFileUrl(req.file.filename)
+        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWJR309C296hRO0kyhmBvOdn3IUNoQ0bJuls-bhARbnOgc8OKFcg&s=10&ec=72940544";
+
+      await vendor.save();
+
+      res.status(200).json({
+        message: "Profile Pic Uploaded successfully",
+        profile_pic: vendor.profile_pic,
+        status: true,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error uploading profile pic",
+        error: error.message,
+        status: false,
+      });
+    }
   };
   
 const handleBirthdayBanner=async(req,res)=>{
@@ -584,35 +575,29 @@ const handleGetVendorListingsbyId = async (req, res) => {
 
 const handleEditVendorListingById = async (req, res) => {
   try {
-    upload(req, res, async (err) => {
-      if (err) {
-        return res
-          .status(500)
-          .json({ status: false, message: "Upload error", error: err.message });
-      }
+    const serviceId = req.query.serviceId;
+    
+    // Find the existing service
+    const service = await VendorService.findById(serviceId);
+    if (!service) {
+      return res
+        .status(404)
+        .json({ message: "Service not found", status: false });
+    }
 
-      const serviceId = req.query.serviceId;
-      
-      // Find the existing service
-      const service = await VendorService.findById(serviceId);
-      if (!service) {
-        return res
-          .status(404)
-          .json({ message: "Service not found", status: false });
-      }
-
-      // Extract fields from request body
-      const {
-        service_name,
-        service_type,
-        category,
-        sub_category,
-        description,
-        price,
-        vendor_id,
-        catering 
-      } = req.body;
-        // Validate input
+    // Extract fields from request body
+    const {
+      service_name,
+      service_type,
+      category,
+      sub_category,
+      description,
+      price,
+      vendor_id,
+      catering 
+    } = req.body;
+    
+    // Validate input
     if (
       !service_name ||
       !service_type ||
@@ -628,47 +613,54 @@ const handleEditVendorListingById = async (req, res) => {
         status: false,
       });
     }
-     let parsedCatering = catering;
-      if (catering && typeof catering === 'string') {
-        try {
-          parsedCatering = JSON.parse(catering);
-        } catch (parseError) {
-          console.error("Error parsing catering JSON:", parseError);
-          return res.status(400).json({
-            status: false,
-            message: "Invalid format for catering data. Expected a JSON object.",
-            error: parseError.message,
-          });
-        }
+    
+    let parsedCatering = catering;
+    if (catering && typeof catering === 'string') {
+      try {
+        parsedCatering = JSON.parse(catering);
+      } catch (parseError) {
+        console.error("Error parsing catering JSON:", parseError);
+        return res.status(400).json({
+          status: false,
+          message: "Invalid format for catering data. Expected a JSON object.",
+          error: parseError.message,
+        });
       }
-     const updateData = { ...req.body, catering: parsedCatering, };
+    }
+    
+    const updateData = { ...req.body, catering: parsedCatering };
+    
+    // Process uploaded images if present
+    if (req.files && req.files.length > 0) {
+      // Convert uploaded files to image objects with URLs
+      const newImages = req.files.map(file => ({
+        id: crypto.randomUUID(),
+        data: getFileUrl(file.filename),
+        filename: file.filename,
+        originalName: file.originalname,
+        size: file.size
+      }));
       
-      // Process uploaded images if present
-      if (req.files && req.files.length > 0) {
-        // Convert uploaded files to base64 strings
-        const newImages =req.files.map(file => ({
-        id: crypto.randomUUID(), // Generate a unique ID
-        data: `data:image/png;base64,${file.buffer.toString("base64")}`
-    }))
-        // Get existing images (or empty array if none)
-        const existingImages = service.images || [];
-        
-        // Combine existing and new images
-        updateData.images = [...existingImages, ...newImages];
-      }
+      // Get existing images (or empty array if none)
+      const existingImages = service.images || [];
+      
+      // Combine existing and new images
+      updateData.images = [...existingImages, ...newImages];
+    }
+    
     const updatedService = await VendorService.findByIdAndUpdate(
       serviceId,
       updateData,
       { new: true }
     );
-      res.status(200).json({
+    
+    res.status(200).json({
       message: "Service updated successfully",
       data: updatedService,
       status: true,
     });
-    });
   } catch (error) {
-   console.error(error);
+    console.error(error);
     res.status(500).json({
       status: false,
       message: "Error updating service",
@@ -727,16 +719,23 @@ const handleDeleteServiceImage = async (req, res) => {
       });
     }
 
-    // Filter out the image with the matching ID
-    const updatedImages = service.images.filter(image => image.id !== imageId);
+    // Find the image to delete
+    const imageToDelete = service.images.find(image => image.id === imageId);
     
-    // If no images were removed, the imageId wasn't found
-    if (updatedImages.length === service.images.length) {
+    if (!imageToDelete) {
       return res.status(404).json({ 
         success: false, 
         message: "Image not found in this service" 
       });
     }
+
+    // Delete the physical file if it exists and has a filename
+    if (imageToDelete.filename) {
+      await deleteFile(`/uploads/${imageToDelete.filename}`);
+    }
+
+    // Filter out the image with the matching ID
+    const updatedImages = service.images.filter(image => image.id !== imageId);
 
     // Update the service with the new images array
     service.images = updatedImages;
@@ -756,6 +755,7 @@ const handleDeleteServiceImage = async (req, res) => {
     });
   }
 };
+
 
 const handleDeleteVendorListingById= async(req,res)=>{
   try {

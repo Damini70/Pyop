@@ -3,9 +3,7 @@ import "./HotPicks.css";
 import Container from "react-bootstrap/esm/Container";
 import Banner from "../Banner/Banner";
 import Carousel from "../Carousel/Carousel";
-import { useEffect } from "react";
-import { makeRequest } from "../../services/generalFunctions";
-import { useState } from "react";
+import { useServices } from "../../hooks/useServices";
 import Birthday from "../../Images/birthday.jpg";
 import Wedding from "../../Images/wedding.png";
 import Party from "../../Images/party.png";
@@ -44,28 +42,8 @@ const array = [
 ];
 
 const HotPicks = ({ banner }) => {
-  const [allServices, setAllServices] = useState([]);
-  useEffect(() => {
-    async function BannerData() {
-      let res;
-
-      if (banner === "birthday") {
-        res = await makeRequest("get", "vendor/service/birthday");
-        if (res?.status) {
-          setAllServices(res.birthdayServices);
-        }
-      }
-
-      if (banner === "wedding") {
-        res = await makeRequest("get", "vendor/service/wedding");
-        if (res?.status) {
-          setAllServices(res.weddingServices);
-        }
-      }
-    }
-
-    BannerData();
-  }, [banner]); // Add `banner` to dependencies if it's expected to change
+  // Use custom hook with React Query to fetch services
+  const { data: allServices = [], isLoading, isError, error, refetch } = useServices(banner);
 
   return (
     <div className="">
@@ -83,11 +61,35 @@ const HotPicks = ({ banner }) => {
         </div>
         <div>
           {/* <Carousel data={array} /> */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3">
-            {allServices?.slice(0, 3).map((service) => {
-              return (
-                <div className="mb-5 ">
-                  <div className="card shadow-2xl border-0 p-2 my-2">
+          {/* <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Featured Services</h3>
+            <button 
+              onClick={() => refetch()}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Loading...' : 'Refresh'}
+            </button>
+          </div>
+           */}
+          {isLoading && (
+            <div className="flex justify-center items-center py-8">
+              <div className="text-lg">Loading services...</div>
+            </div>
+          )}
+          
+          {isError && (
+            <div className="flex justify-center items-center py-8">
+              <div className="text-red-500">Error loading services: {error?.message}</div>
+            </div>
+          )}
+          
+          {!isLoading && !isError && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3">
+              {allServices?.slice(0, 3).map((service, index) => {
+                return (
+                  <div key={service._id || index} className="mb-5 ">
+                    <div className="card shadow-2xl border-0 p-2 my-2">
                     <div>
                       <img className="w-100 rounded" src={array[0].image}></img>
                     </div>
@@ -131,8 +133,9 @@ const HotPicks = ({ banner }) => {
                   </div>
                 </div>
               );
-            })}
-          </div>
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

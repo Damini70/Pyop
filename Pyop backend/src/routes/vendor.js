@@ -26,12 +26,14 @@ const {
   validateAddServices,
 } = require("../utils/validators");
 const { authenticateToken } = require("../middlewares/auth");
+const { uploadConfigs } = require("../middlewares/multer");
 
 router.post("/signup", validateVendorSignup, handleSingupVendor);
 router.post("/login", validateLogin, handleLoginVendor);
 router.post(
   "/add-service",
   authenticateToken,
+  uploadConfigs.serviceImages(5), // Allow up to 5 service images
   // validateAddServices,
   handlePostService
 );
@@ -50,6 +52,7 @@ router.post("/update-password",authenticateToken,handleUpdateVendorPassword)
 router.patch(
   "/update-vendor-listings",
   authenticateToken,
+  uploadConfigs.serviceImages(5), // Allow up to 5 service images for updates
   // validateAddServices,
   handleEditVendorListingById
 );
@@ -59,7 +62,7 @@ router.delete("/delete-service-image",authenticateToken,handleDeleteServiceImage
 
 // Profile_Pic
 router.get("/vendor-profilepic",authenticateToken,handleGetProfilePic);
-router.post("/vendor-profilepic",authenticateToken,handlePostProfilePic);
+router.post("/vendor-profilepic",authenticateToken,uploadConfigs.profileImage(),handlePostProfilePic);
 //Not tested ===============================================
 router.delete("/vendor-profilepic",authenticateToken,handleDeleteProfilePic)
 router.delete("/delete-vendor-listing", authenticateToken,handleDeleteVendorListingById)
@@ -67,6 +70,7 @@ router.delete("/delete-vendor-listing", authenticateToken,handleDeleteVendorList
 // Banner apis
 router.get("/service/birthday",handleBirthdayBanner);
 router.get("/service/wedding",handleWeddingBanner)
+
 
 
 

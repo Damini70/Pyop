@@ -7,6 +7,10 @@ import "./pages/Customer/login/Customer.css";
 import "./pages/Business/login/Business.css";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header/Header";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
 
 
 const AppContent = () => {
@@ -25,10 +29,12 @@ const AppContent = () => {
 };
 
 const App = () => (
-  <BrowserRouter>
-    <Toaster />                            {/* toaster can live anywhere */}
-    <AppContent />                         {/* everything gets router context */}
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <Toaster />                            {/* toaster can live anywhere */}
+      <AppContent />                         {/* everything gets router context */}
+    </BrowserRouter>
+  </QueryClientProvider>
 );
 
 export default App;
